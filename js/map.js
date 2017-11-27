@@ -28,10 +28,14 @@ var CHECKOUT = ['12:00', '13:00', '14:00'];
 var FEATURES_LIST = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var similarObj = {};
 var similarArray = [];
-var getRandomItemArey = getRandomCelValue(1, 8);
+// var getRandomItemArray = getRandomCelValue(1, 8);
 
 function getRandomCelValue(minValue, maxValue) {
   return Math.round(Math.random() * (maxValue - minValue) + minValue);
+}
+
+function compareRandom() {
+  return Math.random() - 0.5;
 }
 
 map.classList.remove('map--faded');
@@ -69,29 +73,3 @@ function createSimilarArray() {
 createSimilarArray();
 
 console.log(similarArray);
-// function createSimilarObj() {
-//   similarObj.push({
-//     author: {
-//       avatar: 'img/avatars/user' + AVATAR_LIST.pop() + '.png'
-//     },
-//     offer: {
-//       title: TITLE_LIST.pop(),
-//       // address: x + ',' + y,
-//       price: getRandomCelValue(MIN_PRICE, MAX_PRICE),
-//       type: TYPE_LIST.pop(),
-//       rooms: getRandomCelValue(MIN_ROOM, MAX_ROOM),
-//       guests: getRandomCelValue(MIN_GUEST, MAX_GUEST),
-//       checkin: CHECKIN.pop(),
-//       checkout: CHECKOUT.pop(),
-//       features: FEATURES_LIST.pop(),
-//       description: ' ',
-//       photos: []
-//     },
-//     location: {
-//       x: getRandomCelValue(MIN_X, MAX_X),
-//       y: getRandomCelValue(MIN_Y, MAX_Y)
-//     }
-//   }
-//   );
-// }
-
