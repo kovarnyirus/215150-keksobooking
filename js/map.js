@@ -37,7 +37,7 @@ function getRandomCelValue(minValue, maxValue) {
 function getRandomArray(array, items) {
   array.sort(compareRandom);
   var newArray = [];
-  for (var i = 0; i < items; i++){
+  for (var i = 0; i < items; i++) {
     newArray.push(array[i]);
   }
   return newArray;
@@ -81,8 +81,6 @@ function createSimilarArray() {
 }
 createSimilarArray();
 
-console.log(similarArray);
-
 var mapPin = document.querySelector('.map__pin');
 var mapPins = document.querySelector('.map__pins');
 
@@ -95,7 +93,7 @@ function getMapPin(index) {
 function renderMapPin() {
   var fragment = document.createDocumentFragment();
 
-  for (var i = 0; i < similarArray.length; i++){
+  for (var i = 0; i < similarArray.length; i++) {
     fragment.appendChild(getMapPin(i));
     mapPins.appendChild(fragment);
   }
@@ -111,7 +109,7 @@ var mapCardElement = mapCardTemplate.cloneNode(true);
 function getFeatures(features) {
   var mapUlElement = mapCardElement.querySelector('.popup__features');
   var cardListFragment = document.createDocumentFragment();
-  for (var i = 0; i < features.length; i++){
+  for (var i = 0; i < features.length; i++) {
     var newLiElement = document.createElement('li');
     newLiElement.className = 'feature feature--' + features[i];
     cardListFragment.appendChild(newLiElement);
@@ -128,7 +126,7 @@ function getMapCard(card) {
   mapCardElement.querySelector('.popup__price').textContent = card.offer.price + '/ночь';
   mapCardElement.querySelector('h4').textContent = card.offer.type;
   mapTextElements[2].textContent = card.offer.rooms + ' комнаты для ' + card.offer.guests + ' гостей';
-  mapTextElements[3].textContent = 'Заезд после '+ card.offer.checkin + ', выезд до' + card.offer.checkout;
+  mapTextElements[3].textContent = 'Заезд после ' + card.offer.checkin + ', выезд до' + card.offer.checkout;
   mapCardElement.querySelector('h4').textContent = card.offer.type;
   getFeatures(card.offer.features);
   mapTextElements[4].textContent = card.offer.description;
