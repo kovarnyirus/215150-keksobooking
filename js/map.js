@@ -51,12 +51,12 @@ map.classList.remove('map--faded');
 
 function createSimilarArray() {
   for (var i = 0; i < 8; i++) {
-    var x = getRandomCelValue(MIN_X, MAX_X) + MAP_PIN_WIDTH / 2;
-    var y = getRandomCelValue(MIN_Y, MAX_Y) + MAP_PIN_HEIGHT;
+    var x = getRandomCelValue(MIN_X, MAX_X);
+    var y = getRandomCelValue(MIN_Y, MAX_Y);
 
     similarObj = {
       author: {
-        avatar: 'img/avatars/user0' + i + '.png'
+        avatar: 'img/avatars/user0' + (i + 1) + '.png'
       },
       offer: {
         title: TITLE_LIST.pop(),
@@ -86,7 +86,9 @@ var mapPins = document.querySelector('.map__pins');
 
 function getMapPin(index) {
   var mapPinChild = mapPin.cloneNode(true);
-  mapPinChild.setAttribute('style', 'left:' + similarArray[index].location.x + 'px; top:' + similarArray[index].location.y + 'px');
+  var  mapPinChildImg = mapPinChild.querySelector('img');
+  mapPinChild.setAttribute('style', 'left:' + (similarArray[index].location.x - MAP_PIN_WIDTH / 2) + 'px; top:' + (similarArray[index].location.y - MAP_PIN_HEIGHT) + 'px');
+  mapPinChildImg.setAttribute('src', similarArray[index].author.avatar);
   return mapPinChild;
 }
 
