@@ -19,10 +19,10 @@ var MIN_GUEST = 1;
 var MAX_GUEST = 10;
 var MIN_X = 300;
 var MAX_X = 900;
-var MIN_Y = 100;
+var MIN_Y = 135;
 var MAX_Y = 500;
-var MAP_PIN_WIDTH = 40;
-var MAP_PIN_HEIGHT = 44;
+var MAP_PIN_WIDTH = 62;
+var MAP_PIN_HEIGHT = 83;
 var TYPE_LIST = ['flat', 'house', 'bungalo'];
 var CHECKIN = ['12:00', '13:00', '14:00'];
 var CHECKOUT = ['12:00', '13:00', '14:00'];
@@ -87,7 +87,7 @@ var mapPins = document.querySelector('.map__pins');
 function getMapPin(index) {
   var mapPinChild = mapPin.cloneNode(true);
   var mapPinChildImg = mapPinChild.querySelector('img');
-  mapPinChild.setAttribute('style', 'left:' + (similarArray[index].location.x - MAP_PIN_WIDTH / 2) + 'px; top:' + (similarArray[index].location.y - MAP_PIN_HEIGHT) + 'px');
+  mapPinChild.setAttribute('style', 'left:' + (similarArray[index].location.x - MAP_PIN_WIDTH / 2) + 'px; top:' + (similarArray[index].location.y - MAP_PIN_HEIGHT / 2) + 'px');
   mapPinChildImg.setAttribute('src', similarArray[index].author.avatar);
   return mapPinChild;
 }
