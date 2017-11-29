@@ -137,4 +137,4 @@ function getMapCard(card) {
   map.insertBefore(mapCardElement, beforeElement);
 }
 
-getMapCard(similarObj);
+getMapCard(similarObj);  
