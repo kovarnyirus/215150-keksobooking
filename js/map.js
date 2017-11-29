@@ -29,9 +29,18 @@ var CHECKOUT = ['12:00', '13:00', '14:00'];
 var FEATURES_LIST = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var similarObj = {};
 var similarArray = [];
+var FEATURES_LIST_RANDOM = cloneArray(FEATURES_LIST);
 
 function getRandomCelValue(minValue, maxValue) {
   return Math.round(Math.random() * (maxValue - minValue) + minValue);
+}
+
+function cloneArray(array) {
+  var newArray = [];
+  for (var i = 0; i < array.length; i++ ) {
+    newArray.push(array[i]);
+  }
+  return newArray;
 }
 
 function getRandomArray(array, items) {
@@ -67,7 +76,7 @@ function createSimilarArray() {
         guests: getRandomCelValue(MIN_GUEST, MAX_GUEST),
         checkin: CHECKIN[getRandomCelValue(0, 2)],
         checkout: CHECKOUT[getRandomCelValue(0, 2)],
-        features: getRandomArray(FEATURES_LIST, 3),
+        features: getRandomArray(FEATURES_LIST_RANDOM, 3),
         description: ' ',
         photos: []
       },
@@ -138,3 +147,6 @@ function getMapCard(card) {
 }
 
 getMapCard(similarObj);
+
+console.log(FEATURES_LIST);
+console.log(FEATURES_LIST_RANDOM);
