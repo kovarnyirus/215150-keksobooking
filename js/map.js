@@ -86,7 +86,7 @@ var mapPins = document.querySelector('.map__pins');
 
 function getMapPin(index) {
   var mapPinChild = mapPin.cloneNode(true);
-  var  mapPinChildImg = mapPinChild.querySelector('img');
+  var mapPinChildImg = mapPinChild.querySelector('img');
   mapPinChild.setAttribute('style', 'left:' + (similarArray[index].location.x - MAP_PIN_WIDTH / 2) + 'px; top:' + (similarArray[index].location.y - MAP_PIN_HEIGHT) + 'px');
   mapPinChildImg.setAttribute('src', similarArray[index].author.avatar);
   return mapPinChild;
@@ -137,4 +137,4 @@ function getMapCard(card) {
   map.insertBefore(mapCardElement, beforeElement);
 }
 
-getMapCard(similarObj);  
+getMapCard(similarObj);
