@@ -30,22 +30,24 @@ var FEATURES_LIST = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'con
 var similarObj = {};
 var similarArray = [];
 var FEATURES_LIST_RANDOM = cloneArray(FEATURES_LIST);
+var mapCardTemplate = document.querySelector('template').content;
+var beforeElement = document.querySelector('.map__filters-container');
+var mapCardElement = mapCardTemplate.cloneNode(true);
+var mapPin = document.querySelector('.map__pin');
+var mapPins = document.querySelector('.map__pins');
 
 function getRandomCelValue(minValue, maxValue) {
   return Math.round(Math.random() * (maxValue - minValue) + minValue);
 }
 
 function cloneArray(array) {
-  var newArray = [];
-  for (var i = 0; i < array.length; i++ ) {
-    newArray.push(array[i]);
-  }
-  return newArray;
+  return array.concat();
 }
 
-function getRandomArray(array, items) {
-  array.sort(compareRandom);
+function getRandomBetween(array, items) {
+  var copyArray = cloneArray(array);
   var newArray = [];
+  copyArray.sort(compareRandom);
   for (var i = 0; i < items; i++) {
     newArray.push(array[i]);
   }
@@ -55,8 +57,6 @@ function getRandomArray(array, items) {
 function compareRandom() {
   return Math.random() - 0.5;
 }
-
-map.classList.remove('map--faded');
 
 function createSimilarArray() {
   for (var i = 0; i < 8; i++) {
@@ -76,7 +76,7 @@ function createSimilarArray() {
         guests: getRandomCelValue(MIN_GUEST, MAX_GUEST),
         checkin: CHECKIN[getRandomCelValue(0, 2)],
         checkout: CHECKOUT[getRandomCelValue(0, 2)],
-        features: getRandomArray(FEATURES_LIST_RANDOM, 3),
+        features: getRandomBetween(FEATURES_LIST_RANDOM, 3),
         description: ' ',
         photos: []
       },
@@ -88,12 +88,8 @@ function createSimilarArray() {
     similarArray.push(similarObj);
   }
 }
-createSimilarArray();
 
-var mapPin = document.querySelector('.map__pin');
-var mapPins = document.querySelector('.map__pins');
-
-function getMapPin(index) {
+function createMapPin(index) {
   var mapPinChild = mapPin.cloneNode(true);
   var mapPinChildImg = mapPinChild.querySelector('img');
   mapPinChild.setAttribute('style', 'left:' + (similarArray[index].location.x - MAP_PIN_WIDTH / 2) + 'px; top:' + (similarArray[index].location.y - MAP_PIN_HEIGHT / 2) + 'px');
@@ -101,35 +97,33 @@ function getMapPin(index) {
   return mapPinChild;
 }
 
-function renderMapPin() {
+function renderMapPins() {
   var fragment = document.createDocumentFragment();
 
   for (var i = 0; i < similarArray.length; i++) {
-    fragment.appendChild(getMapPin(i));
+    fragment.appendChild(createMapPin(i));
   }
   mapPins.innerHTML = '';
   mapPins.appendChild(fragment);
 }
 
-renderMapPin();
-
-var mapCardTemplate = document.querySelector('template').content;
-var beforeElement = document.querySelector('.map__filters-container');
-var mapCardElement = mapCardTemplate.cloneNode(true);
-
-function getFeatures(features) {
-  var mapUlElement = mapCardElement.querySelector('.popup__features');
+function getGenerateFeatures(features) {
   var cardListFragment = document.createDocumentFragment();
   for (var i = 0; i < features.length; i++) {
     var newLiElement = document.createElement('li');
     newLiElement.className = 'feature feature--' + features[i];
     cardListFragment.appendChild(newLiElement);
   }
-  mapUlElement.innerHTML = '';
-  mapUlElement.appendChild(cardListFragment);
+  return cardListFragment;
 }
 
-function getMapCard(card) {
+function renderFeatures(arrayFeatures) {
+  var mapUlElement = mapCardElement.querySelector('.popup__features');
+  mapUlElement.innerHTML = '';
+  mapUlElement.appendChild(getGenerateFeatures(arrayFeatures));
+}
+
+function generateCard(card) {
   var mapTextElements = mapCardElement.querySelectorAll('p');
 
   mapCardElement.querySelector('h3').textContent = card.offer.title;
@@ -139,14 +133,13 @@ function getMapCard(card) {
   mapTextElements[2].textContent = card.offer.rooms + ' комнаты для ' + card.offer.guests + ' гостей';
   mapTextElements[3].textContent = 'Заезд после ' + card.offer.checkin + ', выезд до' + card.offer.checkout;
   mapCardElement.querySelector('h4').textContent = card.offer.type;
-  getFeatures(card.offer.features);
+  renderFeatures(card.offer.features);
   mapTextElements[4].textContent = card.offer.description;
   mapCardElement.querySelector('.popup__avatar').setAttribute('src', card.author.avatar);
-
   map.insertBefore(mapCardElement, beforeElement);
 }
 
-getMapCard(similarObj);
-
-console.log(FEATURES_LIST);
-console.log(FEATURES_LIST_RANDOM);
+map.classList.remove('map--faded');
+createSimilarArray();
+renderMapPins();
+generateCard(similarObj);
