@@ -98,6 +98,7 @@ function renderMapPin() {
   for (var i = 0; i < similarArray.length; i++) {
     fragment.appendChild(getMapPin(i));
   }
+  mapPins.innerHTML = '';
   mapPins.appendChild(fragment);
 }
 
