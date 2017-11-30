@@ -29,12 +29,12 @@ var CHECKOUT = ['12:00', '13:00', '14:00'];
 var FEATURES_LIST = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var similarObj = {};
 var similarArray = [];
-var FEATURES_LIST_RANDOM = cloneArray(FEATURES_LIST);
 var mapCardTemplate = document.querySelector('template').content;
 var beforeElement = document.querySelector('.map__filters-container');
 var mapCardElement = mapCardTemplate.cloneNode(true);
 var mapPin = document.querySelector('.map__pin');
 var mapPins = document.querySelector('.map__pins');
+
 
 function getRandomCelValue(minValue, maxValue) {
   return Math.round(Math.random() * (maxValue - minValue) + minValue);
@@ -76,7 +76,7 @@ function createSimilarArray() {
         guests: getRandomCelValue(MIN_GUEST, MAX_GUEST),
         checkin: CHECKIN[getRandomCelValue(0, 2)],
         checkout: CHECKOUT[getRandomCelValue(0, 2)],
-        features: getRandomBetween(FEATURES_LIST_RANDOM, 3),
+        features: getRandomBetween(FEATURES_LIST, 3),
         description: ' ',
         photos: []
       },
@@ -92,7 +92,10 @@ function createSimilarArray() {
 function createMapPin(index) {
   var mapPinChild = mapPin.cloneNode(true);
   var mapPinChildImg = mapPinChild.querySelector('img');
-  mapPinChild.setAttribute('style', 'left:' + (similarArray[index].location.x - MAP_PIN_WIDTH / 2) + 'px; top:' + (similarArray[index].location.y - MAP_PIN_HEIGHT / 2) + 'px');
+  var xPosition = similarArray[index].location.x - MAP_PIN_WIDTH / 2;
+  var yPosition = similarArray[index].location.y - MAP_PIN_HEIGHT / 2;
+
+  mapPinChild.setAttribute('style', 'left:' + xPosition + 'px; top:' + yPosition + 'px');
   mapPinChildImg.setAttribute('src', similarArray[index].author.avatar);
   return mapPinChild;
 }
@@ -107,7 +110,7 @@ function renderMapPins() {
   mapPins.appendChild(fragment);
 }
 
-function getGenerateFeatures(features) {
+function generateFeatures(features) {
   var cardListFragment = document.createDocumentFragment();
   for (var i = 0; i < features.length; i++) {
     var newLiElement = document.createElement('li');
@@ -120,7 +123,7 @@ function getGenerateFeatures(features) {
 function renderFeatures(arrayFeatures) {
   var mapUlElement = mapCardElement.querySelector('.popup__features');
   mapUlElement.innerHTML = '';
-  mapUlElement.appendChild(getGenerateFeatures(arrayFeatures));
+  mapUlElement.appendChild(generateFeatures(arrayFeatures));
 }
 
 function generateCard(card) {
