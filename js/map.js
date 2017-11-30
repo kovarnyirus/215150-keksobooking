@@ -96,6 +96,7 @@ function createMapPin(index) {
   var yPosition = similarArray[index].location.y - MAP_PIN_HEIGHT / 2;
 
   mapPinChild.setAttribute('style', 'left:' + xPosition + 'px; top:' + yPosition + 'px');
+  mapPinChild.setAttribute('class', 'map__pin');
   mapPinChildImg.setAttribute('src', similarArray[index].author.avatar);
   return mapPinChild;
 }
