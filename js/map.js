@@ -19,10 +19,10 @@ var MIN_GUEST = 1;
 var MAX_GUEST = 10;
 var MIN_X = 300;
 var MAX_X = 900;
-var MIN_Y = 135;
+var MIN_Y = 197;
 var MAX_Y = 500;
 var MAP_PIN_WIDTH = 62;
-var MAP_PIN_HEIGHT = 83;
+var MAP_PIN_HEIGHT = 62;
 var LENGTHSIMILARARRAY = 8;
 var TYPE_LIST = ['flat', 'house', 'bungalo'];
 var CHECKIN = ['12:00', '13:00', '14:00'];
@@ -32,8 +32,8 @@ var similarObj = {};
 var similarArray = createSimilarArray(LENGTHSIMILARARRAY);
 var mapCardTemplate = document.querySelector('template').content;
 var beforeElement = document.querySelector('.map__filters-container');
-var mapCardElement = mapCardTemplate.cloneNode(true);
-var mapPin = mapCardElement.querySelector('.map__pin');
+var mapCardElement = mapCardTemplate.querySelector('.map__card').cloneNode(true);
+var mapPin = mapCardTemplate.querySelector('.map__pin');
 var mapPins = document.querySelector('.map__pins');
 
 
@@ -61,7 +61,7 @@ function compareRandom() {
 
 function createSimilarArray(lengthArray) {
   var array = [];
-  for (var i = 0; i < lengthArray ; i++) {
+  for (var i = 0; i < lengthArray; i++) {
     var x = getRandomCelValue(MIN_X, MAX_X);
     var y = getRandomCelValue(MIN_Y, MAX_Y);
 
@@ -96,10 +96,9 @@ function createMapPin(index) {
   var mapPinChild = mapPin.cloneNode(true);
   var mapPinChildImg = mapPinChild.querySelector('img');
   var xPosition = similarArray[index].location.x - MAP_PIN_WIDTH / 2;
-  var yPosition = similarArray[index].location.y - MAP_PIN_HEIGHT / 2;
+  var yPosition = similarArray[index].location.y - MAP_PIN_HEIGHT;
 
   mapPinChild.setAttribute('style', 'left:' + xPosition + 'px; top:' + yPosition + 'px');
-  mapPinChild.setAttribute('class', 'map__pin');
   mapPinChildImg.setAttribute('src', similarArray[index].author.avatar);
   return mapPinChild;
 }
