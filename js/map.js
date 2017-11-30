@@ -23,16 +23,17 @@ var MIN_Y = 135;
 var MAX_Y = 500;
 var MAP_PIN_WIDTH = 62;
 var MAP_PIN_HEIGHT = 83;
+var LENGTHSIMILARARRAY = 8;
 var TYPE_LIST = ['flat', 'house', 'bungalo'];
 var CHECKIN = ['12:00', '13:00', '14:00'];
 var CHECKOUT = ['12:00', '13:00', '14:00'];
 var FEATURES_LIST = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var similarObj = {};
-var similarArray = [];
+var similarArray = createSimilarArray(LENGTHSIMILARARRAY);
 var mapCardTemplate = document.querySelector('template').content;
 var beforeElement = document.querySelector('.map__filters-container');
 var mapCardElement = mapCardTemplate.cloneNode(true);
-var mapPin = document.querySelector('.map__pin');
+var mapPin = mapCardElement.querySelector('.map__pin');
 var mapPins = document.querySelector('.map__pins');
 
 
@@ -58,8 +59,9 @@ function compareRandom() {
   return Math.random() - 0.5;
 }
 
-function createSimilarArray() {
-  for (var i = 0; i < 8; i++) {
+function createSimilarArray(lengthArray) {
+  var array = [];
+  for (var i = 0; i < lengthArray ; i++) {
     var x = getRandomCelValue(MIN_X, MAX_X);
     var y = getRandomCelValue(MIN_Y, MAX_Y);
 
@@ -85,8 +87,9 @@ function createSimilarArray() {
         y: y
       }
     };
-    similarArray.push(similarObj);
+    array.push(similarObj);
   }
+  return array;
 }
 
 function createMapPin(index) {
@@ -101,13 +104,12 @@ function createMapPin(index) {
   return mapPinChild;
 }
 
-function renderMapPins() {
+function renderMapPins(array) {
   var fragment = document.createDocumentFragment();
 
-  for (var i = 0; i < similarArray.length; i++) {
+  for (var i = 0; i < array.length; i++) {
     fragment.appendChild(createMapPin(i));
   }
-  mapPins.innerHTML = '';
   mapPins.appendChild(fragment);
 }
 
@@ -134,7 +136,7 @@ function generateCard(card) {
   mapCardElement.querySelector('small').textContent = card.offer.address;
   mapCardElement.querySelector('.popup__price').textContent = card.offer.price + '/ночь';
   mapCardElement.querySelector('h4').textContent = card.offer.type;
-  mapTextElements[2].textContent = card.offer.rooms + ' комнаты для ' + card.offer.guests + ' гостей';
+  mapTextElements[2].textContent = card.offer.rooms + ' для ' + card.offer.guests + (card.offer.guests === 1 ? ' гостя' : ' гостей');
   mapTextElements[3].textContent = 'Заезд после ' + card.offer.checkin + ', выезд до' + card.offer.checkout;
   mapCardElement.querySelector('h4').textContent = card.offer.type;
   renderFeatures(card.offer.features);
@@ -145,5 +147,5 @@ function generateCard(card) {
 
 map.classList.remove('map--faded');
 createSimilarArray();
-renderMapPins();
+renderMapPins(similarArray);
 generateCard(similarObj);
