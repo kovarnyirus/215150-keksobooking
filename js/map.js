@@ -21,15 +21,15 @@ var MIN_X = 300;
 var MAX_X = 900;
 var MIN_Y = 197;
 var MAX_Y = 500;
-var MAP_PIN_WIDTH = 62;
+var MAP_PIN_WIDTH = 45;
 var MAP_PIN_HEIGHT = 62;
-var LENGTHSIMILARARRAY = 8;
+var PIN_COUNT = 8;
 var TYPE_LIST = ['flat', 'house', 'bungalo'];
 var CHECKIN = ['12:00', '13:00', '14:00'];
 var CHECKOUT = ['12:00', '13:00', '14:00'];
 var FEATURES_LIST = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var similarObj = {};
-var similarArray = createSimilarArray(LENGTHSIMILARARRAY);
+var similarArray = createSimilarArray(PIN_COUNT);
 var mapCardTemplate = document.querySelector('template').content;
 var beforeElement = document.querySelector('.map__filters-container');
 var mapCardElement = mapCardTemplate.querySelector('.map__card').cloneNode(true);
@@ -37,7 +37,7 @@ var mapPin = mapCardTemplate.querySelector('.map__pin');
 var mapPins = document.querySelector('.map__pins');
 
 
-function getRandomCelValue(minValue, maxValue) {
+function getRandomBetween(minValue, maxValue) {
   return Math.round(Math.random() * (maxValue - minValue) + minValue);
 }
 
@@ -45,7 +45,7 @@ function cloneArray(array) {
   return array.concat();
 }
 
-function getRandomBetween(array, items) {
+function getRandomArrayItems(array, items) {
   var copyArray = cloneArray(array);
   var newArray = [];
   copyArray.sort(compareRandom);
@@ -62,8 +62,8 @@ function compareRandom() {
 function createSimilarArray(lengthArray) {
   var array = [];
   for (var i = 0; i < lengthArray; i++) {
-    var x = getRandomCelValue(MIN_X, MAX_X);
-    var y = getRandomCelValue(MIN_Y, MAX_Y);
+    var x = getRandomBetween(MIN_X, MAX_X);
+    var y = getRandomBetween(MIN_Y, MAX_Y);
 
     similarObj = {
       author: {
@@ -72,13 +72,13 @@ function createSimilarArray(lengthArray) {
       offer: {
         title: TITLE_LIST.pop(),
         address: x + ',' + y,
-        price: getRandomCelValue(MIN_PRICE, MAX_PRICE),
-        type: TYPE_LIST[getRandomCelValue(1, 3)],
-        rooms: getRandomCelValue(MIN_ROOM, MAX_ROOM),
-        guests: getRandomCelValue(MIN_GUEST, MAX_GUEST),
-        checkin: CHECKIN[getRandomCelValue(0, 2)],
-        checkout: CHECKOUT[getRandomCelValue(0, 2)],
-        features: getRandomBetween(FEATURES_LIST, 3),
+        price: getRandomBetween(MIN_PRICE, MAX_PRICE),
+        type: TYPE_LIST[getRandomBetween(1, 3)],
+        rooms: getRandomBetween(MIN_ROOM, MAX_ROOM),
+        guests: getRandomBetween(MIN_GUEST, MAX_GUEST),
+        checkin: CHECKIN[getRandomBetween(0, 2)],
+        checkout: CHECKOUT[getRandomBetween(0, 2)],
+        features: getRandomArrayItems(FEATURES_LIST, 3),
         description: ' ',
         photos: []
       },
@@ -144,7 +144,8 @@ function generateCard(card) {
   map.insertBefore(mapCardElement, beforeElement);
 }
 
-map.classList.remove('map--faded');
-createSimilarArray();
-renderMapPins(similarArray);
-generateCard(similarObj);
+(function () {
+  map.classList.remove('map--faded');
+  renderMapPins(similarArray);
+  generateCard(similarObj);
+}());
