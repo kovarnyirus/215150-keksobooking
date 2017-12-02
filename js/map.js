@@ -28,7 +28,6 @@ var TYPE_LIST = ['flat', 'house', 'bungalo'];
 var CHECKIN = ['12:00', '13:00', '14:00'];
 var CHECKOUT = ['12:00', '13:00', '14:00'];
 var FEATURES_LIST = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-var similarObj = {};
 var similarArray = createSimilarArray(PIN_COUNT);
 var mapCardTemplate = document.querySelector('template').content;
 var beforeElement = document.querySelector('.map__filters-container');
@@ -61,6 +60,8 @@ function compareRandom() {
 
 function createSimilarArray(lengthArray) {
   var array = [];
+  var similarObj = {};
+
   for (var i = 0; i < lengthArray; i++) {
     var x = getRandomBetween(MIN_X, MAX_X);
     var y = getRandomBetween(MIN_Y, MAX_Y);
@@ -147,5 +148,5 @@ function generateCard(card) {
 (function () {
   map.classList.remove('map--faded');
   renderMapPins(similarArray);
-  generateCard(similarObj);
+  generateCard(similarArray[0]);
 }());
