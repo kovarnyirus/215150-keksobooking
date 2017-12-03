@@ -170,20 +170,20 @@ function onMapPinMainMouseup() {
 mapPinMain.addEventListener('mouseup', onMapPinMainMouseup);
 
 function onMapPinMouseup(event) {
-  var mapPin = event.target.parentElement;
+  var mapPinelement = event.target.parentElement;
 
 
   if (mapPinActive !== undefined){
     mapPinActive.classList.remove('map__pin--active');
   }
 
-  if(mapPin.className !== 'map__pin map__pin--main'){
-    onPopupOpen(mapPin);
+  if(mapPinelement.className !== 'map__pin map__pin--main'){
+    onPopupOpen(mapPinelement);
   }
 
-  mapPins.addEventListener('keydown', function (evt) {
+  mapPin.addEventListener('keydown', function (evt) {
     if (evt.keyCode === ENTER_KEYCODE) {
-      onPopupOpen(mapPin);
+      onPopupOpen(mapPinelement);
     }
   });
 
