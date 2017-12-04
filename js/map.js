@@ -152,14 +152,12 @@ function generateCard(card) {
 }
 // module4-task1
 
-function formDisabled() {
-  var formDisabledElements = notice.querySelectorAll('fieldset');
-  for (var i = 0; i < formDisabledElements.length; i++) {
-    formDisabledElements[i].setAttribute('disabled', 'disabled');
+function disableForm() {
+  var elements = notice.querySelectorAll('fieldset');
+  for (var i = 0; i < elements.length; i++) {
+    elements[i].setAttribute('disabled', 'disabled');
   }
 }
-
-formDisabled();
 
 function onMapPinMainMouseup() {
   map.classList.remove('map--faded');
@@ -169,7 +167,6 @@ function onMapPinMainMouseup() {
   mapPins.addEventListener('mouseup', onPopupOpen);
   mapPins.addEventListener('keydown', onMapPinsEnterPress);
 }
-mapPinMain.addEventListener('mouseup', onMapPinMainMouseup);
 
 function onPopupOpen(event) {
   var mapPinTarget;
@@ -182,11 +179,14 @@ function onPopupOpen(event) {
     return;
   }
 
-  if (mapPinActive !== void (0)) {
+  if (mapPinActive) {
     mapPinActive.classList.remove('map__pin--active');
   }
 
-  if (mapPinTarget.className === 'map__pin map__pin--main') {
+  var mapPinTargetClasses = mapPinTarget.classList;
+  var mapPinTargetClass = mapPinTargetClasses.contains('map__pin--main');
+
+  if (mapPinTargetClass) {
     return;
   }
 
@@ -226,3 +226,6 @@ function onPopupEscPress(event) {
     map.removeEventListener('keydown', onPopupEscPress);
   }
 }
+
+disableForm();
+mapPinMain.addEventListener('mouseup', onMapPinMainMouseup);
