@@ -166,30 +166,23 @@ function onMapPinMainMouseup() {
   notice.querySelector('.notice__form').classList.remove('notice__form--disabled');
   renderMapPins(similarArray);
   mapPinMain.removeEventListener('mouseup', onMapPinMainMouseup);
+  mapPins.addEventListener('mouseup', onMapPinMouseup);
+  mapPins.addEventListener('keydown', onMapPinEnterPress);
 }
 mapPinMain.addEventListener('mouseup', onMapPinMainMouseup);
 
-// function onMapPinMouseup(event) {
-//   var mapPinelement = event.target.parentElement;
-//
-//   if (mapPinActive !== undefined){
-//     mapPinActive.classList.remove('map__pin--active');
-//   }
-//
-//   if(mapPinelement.className !== 'map__pin map__pin--main'){
-//     onPopupOpen(mapPinelement);
-//   }
-// }
-mapPins.addEventListener('mouseup', onPopupOpen);
-mapPins.addEventListener('keydown', onMapPinsEnterPress);
+function onMapPinMouseup(event) {
+  var mapPinelement = event.target.parentElement;
 
-function onPopupOpen(event) {
-  var mapPin = event.target.parentElement;
+  if(mapPinelement.className !== 'map__pin map__pin--main'){
+    onPopupOpen(mapPinelement);
+  }
+
+}
+
+function onPopupOpen(mapPin) {
   if (mapPinActive !== undefined){
     mapPinActive.classList.remove('map__pin--active');
-  }
-  if(mapPin.className === 'map__pin map__pin--main'){
-    return;
   }
   generateCard(similarArray[mapPin.id]);
   mapPin.classList.add('map__pin--active');
@@ -218,16 +211,11 @@ function onPopupEscPress(evt) {
   map.removeEventListener('keydown', onPopupEscPress);
 }
 
-function onMapPinsEnterPress(evt) {
+function onMapPinEnterPress(evt) {
+  var mapPinelement = event.target;
   if (evt.keyCode === ENTER_KEYCODE) {
-    onPopupOpen(evt)
-  }
-
+      onPopupOpen(mapPinelement);
+  };
 }
 
 
-// mapPin.addEventListener('keydown', function (evt) {
-//   if (evt.keyCode === ENTER_KEYCODE) {
-//     onPopupOpen(mapPinelement);
-//   }
-// });
