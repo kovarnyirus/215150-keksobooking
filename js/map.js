@@ -169,28 +169,28 @@ function onMapPinMainMouseup() {
 }
 mapPinMain.addEventListener('mouseup', onMapPinMainMouseup);
 
-function onMapPinMouseup(event) {
-  var mapPinelement = event.target.parentElement;
+// function onMapPinMouseup(event) {
+//   var mapPinelement = event.target.parentElement;
+//
+//   if (mapPinActive !== undefined){
+//     mapPinActive.classList.remove('map__pin--active');
+//   }
+//
+//   if(mapPinelement.className !== 'map__pin map__pin--main'){
+//     onPopupOpen(mapPinelement);
+//   }
+// }
+mapPins.addEventListener('mouseup', onPopupOpen);
+mapPins.addEventListener('keydown', onMapPinsEnterPress);
 
-
+function onPopupOpen(event) {
+  var mapPin = event.target.parentElement;
   if (mapPinActive !== undefined){
     mapPinActive.classList.remove('map__pin--active');
   }
-
-  if(mapPinelement.className !== 'map__pin map__pin--main'){
-    onPopupOpen(mapPinelement);
+  if(mapPin.className === 'map__pin map__pin--main'){
+    return;
   }
-
-  mapPin.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === ENTER_KEYCODE) {
-      onPopupOpen(mapPinelement);
-    }
-  });
-
-}
-mapPins.addEventListener('mouseup', onMapPinMouseup);
-
-function onPopupOpen(mapPin) {
   generateCard(similarArray[mapPin.id]);
   mapPin.classList.add('map__pin--active');
   mapPinActive = map.querySelector('.map__pin--active');
@@ -218,5 +218,16 @@ function onPopupEscPress(evt) {
   map.removeEventListener('keydown', onPopupEscPress);
 }
 
+function onMapPinsEnterPress(evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    onPopupOpen(evt)
+  }
+
+}
 
 
+// mapPin.addEventListener('keydown', function (evt) {
+//   if (evt.keyCode === ENTER_KEYCODE) {
+//     onPopupOpen(mapPinelement);
+//   }
+// });
