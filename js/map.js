@@ -154,6 +154,7 @@ function generateCard(card) {
 
 function disableForm() {
   var elements = notice.querySelectorAll('fieldset');
+  mapPinMain.addEventListener('mouseup', onMapPinMainMouseup);
   for (var i = 0; i < elements.length; i++) {
     elements[i].setAttribute('disabled', 'disabled');
   }
@@ -235,4 +236,4 @@ function onPopupEscPress(event) {
 }
 
 disableForm();
-mapPinMain.addEventListener('mouseup', onMapPinMainMouseup);
+
