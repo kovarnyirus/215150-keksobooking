@@ -143,7 +143,7 @@ function generateCard(card) {
   mapCardElement.querySelector('.popup__price').textContent = card.offer.price + '/ночь';
   mapCardElement.querySelector('h4').textContent = card.offer.type;
   mapTextElements[2].textContent = card.offer.rooms + ' для ' + card.offer.guests + (card.offer.guests === 1 ? ' гостя' : ' гостей');
-  mapTextElements[3].textContent = 'Заезд после ' + card.offer.checkin + ', выезд до' + card.offer.checkout;
+  mapTextElements[3].textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
   mapCardElement.querySelector('h4').textContent = card.offer.type;
   renderFeatures(card.offer.features);
   mapTextElements[4].textContent = card.offer.description;
@@ -168,41 +168,48 @@ function onMapPinMainMouseup() {
   mapPins.addEventListener('keydown', onMapPinsEnterPress);
 }
 
+function checkedClass(element, className) {
+  return element.classList.contains(className);
+}
+
 function onPopupOpen(event) {
   var mapPinTarget;
 
-  if (event.target.parentElement.tagName === 'BUTTON') {
+  if (checkedClass(event.target.parentElement, 'map__pin')) {
     mapPinTarget = event.target.parentElement;
-  } else if (event.target.tagName === 'BUTTON') {
+  } else if (checkedClass(event.target, 'map__pin')) {
     mapPinTarget = event.target;
   } else {
     return;
   }
 
   if (mapPinActive) {
-    mapPinActive.classList.remove('map__pin--active');
+    removeClass(mapPinActive, 'map__pin--active');
   }
 
-  var mapPinTargetClasses = mapPinTarget.classList;
-  var mapPinTargetClass = mapPinTargetClasses.contains('map__pin--main');
+  var isMainPin = checkedClass(mapPinTarget, 'map__pin--main');
 
-  if (mapPinTargetClass) {
+  if (isMainPin) {
     return;
   }
 
   generateCard(similarArray[mapPinTarget.id]);
   mapPinTarget.classList.add('map__pin--active');
-  mapPinActive = map.querySelector('.map__pin--active');
+  mapPinActive = mapPinTarget;
   popupClose = map.querySelector('.popup__close');
   popupClose.addEventListener('mouseup', onPopupClose);
   map.addEventListener('keydown', onPopupEscPress);
   popupClose.addEventListener('keydown', onPopupCloseEnterPress);
 }
 
+function removeClass(element, className) {
+  element.classList.remove(className);
+}
+
 function onPopupClose() {
   var popup = map.querySelector('.popup');
   popup.remove();
-  mapPinActive.classList.remove('map__pin--active');
+  removeClass(mapPinActive, 'map__pin--active');
   map.removeEventListener('keydown', onPopupEscPress);
   popupClose.removeEventListener('keydown', onPopupCloseEnterPress);
 }
