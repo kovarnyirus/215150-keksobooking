@@ -34,7 +34,12 @@ var beforeElement = document.querySelector('.map__filters-container');
 var mapCardElement = mapCardTemplate.querySelector('.map__card').cloneNode(true);
 var mapPin = mapCardTemplate.querySelector('.map__pin');
 var mapPins = document.querySelector('.map__pins');
-
+var notice = document.querySelector('.notice');
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
+var mapPinMain = map.querySelector('.map__pin--main');
+var mapPinActive;
+var popupClose;
 
 function getRandomBetween(minValue, maxValue) {
   return Math.round(Math.random() * (maxValue - minValue) + minValue);
@@ -100,6 +105,7 @@ function createMapPin(index) {
   var yPosition = similarArray[index].location.y - MAP_PIN_HEIGHT;
 
   mapPinChild.setAttribute('style', 'left:' + xPosition + 'px; top:' + yPosition + 'px');
+  mapPinChild.setAttribute('id', +[index]);
   mapPinChildImg.setAttribute('src', similarArray[index].author.avatar);
   return mapPinChild;
 }
@@ -137,16 +143,102 @@ function generateCard(card) {
   mapCardElement.querySelector('.popup__price').textContent = card.offer.price + '/ночь';
   mapCardElement.querySelector('h4').textContent = card.offer.type;
   mapTextElements[2].textContent = card.offer.rooms + ' для ' + card.offer.guests + (card.offer.guests === 1 ? ' гостя' : ' гостей');
-  mapTextElements[3].textContent = 'Заезд после ' + card.offer.checkin + ', выезд до' + card.offer.checkout;
+  mapTextElements[3].textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
   mapCardElement.querySelector('h4').textContent = card.offer.type;
   renderFeatures(card.offer.features);
   mapTextElements[4].textContent = card.offer.description;
   mapCardElement.querySelector('.popup__avatar').setAttribute('src', card.author.avatar);
   map.insertBefore(mapCardElement, beforeElement);
 }
+// module4-task1
 
-(function () {
+function disableForm() {
+  var elements = notice.querySelectorAll('fieldset');
+  mapPinMain.addEventListener('mouseup', onMapPinMainMouseup);
+  for (var i = 0; i < elements.length; i++) {
+    elements[i].setAttribute('disabled', 'disabled');
+  }
+}
+
+function onMapPinMainMouseup() {
   map.classList.remove('map--faded');
+  notice.querySelector('.notice__form').classList.remove('notice__form--disabled');
   renderMapPins(similarArray);
-  generateCard(similarArray[0]);
-}());
+  mapPinMain.removeEventListener('mouseup', onMapPinMainMouseup);
+  mapPins.addEventListener('mouseup', onPopupOpen);
+  mapPins.addEventListener('keydown', onMapPinsEnterPress);
+}
+
+function hasClass(element, className) {
+  if (element) {
+    return element.classList.contains(className);
+  } else {
+    return false;
+  }
+}
+
+function getTargetElement(event) {
+  if (hasClass(event.target.parentElement, 'map__pin')) {
+    return event.target.parentElement;
+  } else if (hasClass(event.target, 'map__pin')) {
+    return event.target;
+  } else {
+    return false;
+  }
+}
+
+function onPopupOpen(event) {
+  var mapPinTarget = getTargetElement(event);
+
+  if (hasClass(mapPinTarget, 'map__pin--main')) {
+    return;
+  }
+
+  if (mapPinTarget) {
+    if (mapPinActive) {
+      removeClass(mapPinActive, 'map__pin--active');
+    }
+    generateCard(similarArray[mapPinTarget.id]);
+    mapPinTarget.classList.add('map__pin--active');
+    mapPinActive = mapPinTarget;
+    popupClose = map.querySelector('.popup__close');
+    popupClose.addEventListener('mouseup', onPopupClose);
+    map.addEventListener('keydown', onPopupEscPress);
+    popupClose.addEventListener('keydown', onPopupCloseEnterPress);
+  }
+}
+
+function removeClass(element, className) {
+  element.classList.remove(className);
+}
+
+function onPopupClose() {
+  var popup = map.querySelector('.popup');
+  popup.remove();
+  removeClass(mapPinActive, 'map__pin--active');
+  map.removeEventListener('keydown', onPopupEscPress);
+  popupClose.removeEventListener('keydown', onPopupCloseEnterPress);
+}
+
+function onPopupCloseEnterPress(evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    onPopupClose();
+  }
+}
+
+function onMapPinsEnterPress(event) {
+  if (event.keyCode === ENTER_KEYCODE) {
+    onPopupOpen(event);
+  }
+
+}
+
+function onPopupEscPress(event) {
+  if (event.keyCode === ESC_KEYCODE) {
+    onPopupClose();
+    map.removeEventListener('keydown', onPopupEscPress);
+  }
+}
+
+disableForm();
+
