@@ -169,38 +169,43 @@ function onMapPinMainMouseup() {
   mapPins.addEventListener('keydown', onMapPinsEnterPress);
 }
 
-function checkedClass(element, className) {
-  return element.classList.contains(className);
+function hasClass(element, className) {
+  if (element) {
+    return element.classList.contains(className);
+  } else {
+    return false;
+  }
+}
+
+function getTargetElement(event) {
+  if (hasClass(event.target.parentElement, 'map__pin')) {
+    return event.target.parentElement;
+  } else if (hasClass(event.target, 'map__pin')) {
+    return event.target;
+  } else {
+    return false;
+  }
 }
 
 function onPopupOpen(event) {
-  var mapPinTarget;
+  var mapPinTarget = getTargetElement(event);
 
-  if (checkedClass(event.target.parentElement, 'map__pin')) {
-    mapPinTarget = event.target.parentElement;
-  } else if (checkedClass(event.target, 'map__pin')) {
-    mapPinTarget = event.target;
-  } else {
+  if (hasClass(mapPinTarget, 'map__pin--main')) {
     return;
   }
 
-  if (mapPinActive) {
-    removeClass(mapPinActive, 'map__pin--active');
+  if (mapPinTarget) {
+    if (mapPinActive) {
+      removeClass(mapPinActive, 'map__pin--active');
+    }
+    generateCard(similarArray[mapPinTarget.id]);
+    mapPinTarget.classList.add('map__pin--active');
+    mapPinActive = mapPinTarget;
+    popupClose = map.querySelector('.popup__close');
+    popupClose.addEventListener('mouseup', onPopupClose);
+    map.addEventListener('keydown', onPopupEscPress);
+    popupClose.addEventListener('keydown', onPopupCloseEnterPress);
   }
-
-  var isMainPin = checkedClass(mapPinTarget, 'map__pin--main');
-
-  if (isMainPin) {
-    return;
-  }
-
-  generateCard(similarArray[mapPinTarget.id]);
-  mapPinTarget.classList.add('map__pin--active');
-  mapPinActive = mapPinTarget;
-  popupClose = map.querySelector('.popup__close');
-  popupClose.addEventListener('mouseup', onPopupClose);
-  map.addEventListener('keydown', onPopupEscPress);
-  popupClose.addEventListener('keydown', onPopupCloseEnterPress);
 }
 
 function removeClass(element, className) {
