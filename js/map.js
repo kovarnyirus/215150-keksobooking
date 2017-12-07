@@ -40,6 +40,13 @@ var ENTER_KEYCODE = 13;
 var mapPinMain = map.querySelector('.map__pin--main');
 var mapPinActive;
 var popupClose;
+var typeInput = notice.querySelector('#type');
+var selectTimeIn = notice.querySelector('#timein');
+var selectTimeOut = notice.querySelector('#timeout');
+var selectRoomNamber = notice.querySelector('#room_number');
+var selectCapacity = notice.querySelector('#capacity');
+var fieldCapacity = selectCapacity.querySelectorAll('option');
+
 
 function getRandomBetween(minValue, maxValue) {
   return Math.round(Math.random() * (maxValue - minValue) + minValue);
@@ -176,6 +183,10 @@ function onMapPinMainMouseup() {
   mapPinMain.removeEventListener('mouseup', onMapPinMainMouseup);
   mapPins.addEventListener('mouseup', onPopupOpen);
   mapPins.addEventListener('keydown', onMapPinsEnterPress);
+  typeInput.addEventListener('change', selectTypeInput);
+  selectTimeIn.addEventListener('change', onSelectTimeIn);
+  selectTimeOut.addEventListener('change', onSelectTimeOut);
+  selectRoomNamber.addEventListener('change', onSelectRoomNamber);
 }
 
 function hasClass(element, className) {
@@ -187,13 +198,8 @@ function hasClass(element, className) {
 }
 
 function getTargetElement(event) {
-  if (hasClass(event.target.parentElement, 'map__pin')) {
-    return event.target.parentElement;
-  } else if (hasClass(event.target, 'map__pin')) {
-    return event.target;
-  } else {
-    return false;
-  }
+
+  return hasClass(event.target.parentElement, 'map__pin') ? event.target.parentElement : hasClass(event.target, 'map__pin') ? event.target : false;
 }
 
 function onPopupOpen(event) {
@@ -248,43 +254,56 @@ function onPopupEscPress(event) {
     map.removeEventListener('keydown', onPopupEscPress);
   }
 }
+// task2
 
-disableForm();
-
-
-
-var typeInput = notice.querySelector('#type');
-var roomNumberInput = notice.querySelector('#room_number');
-
-typeInput.addEventListener('input', function (evt) {
+function selectTypeInput(evt) {
   var priceInput = notice.querySelector('#price');
-  console.log(evt.target.value);
   if (evt.target.value === 'bungalo') {
     priceInput.setAttribute('min', '0');
-    priceInput.setAttribute('value', '0');
   } else if (evt.target.value === 'flat') {
     priceInput.setAttribute('min', '1000');
-    priceInput.setAttribute('value', '1000');
   } else if (evt.target.value === 'house') {
     priceInput.setAttribute('min', '5000');
-    priceInput.setAttribute('value', '5000');
   } else if (evt.target.value === 'palace') {
     priceInput.setAttribute('min', '10000');
-    priceInput.setAttribute('value', '10000');
   }
-});
+}
 
-roomNumberInput.addEventListener('change', function (evt) {
-  var capacityInput = notice.querySelector('#capacity');
-  console.log(evt.target.value);
-  if (evt.target.value === '1') {
-    capacityInput.childElement('value', '1');
+function changeField(element, value) {
+  element.value = value;
+}
+
+function onSelectTimeIn(event) {
+  changeField(selectTimeOut, event.target.value);
+}
+
+function onSelectTimeOut(event) {
+  changeField(selectTimeIn, event.target.value);
+}
+
+function disableFields(array) {
+  for (var i = 0; i < array.length; i++) {
+    array[i].setAttribute('disabled', 'disabled');
   }
-    // else if (evt.target.value === '2') {
-  //   priceInput.change('value', '1000');
-  // } else if (evt.target.value === '3') {
-  //   priceInput.setAttribute('value', '5000');
-  // } else if (evt.target.value === '0') {
-  //   priceInput.setAttribute('value', '10000');
-  // }
-});
+}
+
+function onSelectRoomNamber(event) {
+  var guestValue = event.target.value < 100 ? event.target.value : 0;
+  changeField(selectCapacity, guestValue);
+  disableFields(fieldCapacity);
+  enableFields(fieldCapacity, guestValue);
+}
+
+function enableFields(array, val) {
+  if (val) {
+    for (var i = 0; i < array.length - 1; i++) {
+      if (fieldCapacity[i].value <= val) {
+        array[i].removeAttribute('disabled');
+      }
+    }
+  }else {
+    array[3].removeAttribute('disabled');
+  }
+}
+
+disableForm();
