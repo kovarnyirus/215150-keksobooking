@@ -43,10 +43,9 @@ var popupClose;
 var typeInput = notice.querySelector('#type');
 var selectTimeIn = notice.querySelector('#timein');
 var selectTimeOut = notice.querySelector('#timeout');
-var selectRoomNamber = notice.querySelector('#room_number');
+var selectRoomNumber = notice.querySelector('#room_number');
 var selectCapacity = notice.querySelector('#capacity');
-var fieldCapacity = selectCapacity.querySelectorAll('option');
-
+var fieldsCapacity = selectCapacity.querySelectorAll('option');
 
 function getRandomBetween(minValue, maxValue) {
   return Math.round(Math.random() * (maxValue - minValue) + minValue);
@@ -161,33 +160,36 @@ function generateCard(card) {
 
 function disableForm() {
   var elements = notice.querySelectorAll('fieldset');
-  mapPinMain.addEventListener('mouseup', onMapPinMainMouseup);
+  mapPinMain.addEventListener('mouseup', onMainPinClick);
   for (var i = 0; i < elements.length; i++) {
     elements[i].setAttribute('disabled', 'disabled');
   }
 }
 
-function unableForm() {
+function enableForm() {
   var elements = notice.querySelectorAll('fieldset');
-  mapPinMain.addEventListener('mouseup', onMapPinMainMouseup);
+  mapPinMain.addEventListener('mouseup', onMainPinClick);
   for (var i = 0; i < elements.length; i++) {
     elements[i].removeAttribute('disabled');
   }
 }
 
-function onMapPinMainMouseup(event) {
+function onMainPinClick(event) {
   map.classList.remove('map--faded');
   notice.querySelector('.notice__form').classList.remove('notice__form--disabled');
-  unableForm();
+  enableForm();
   renderMapPins(similarArray);
-  mapPinMain.removeEventListener('mouseup', onMapPinMainMouseup);
+  mapPinMain.removeEventListener('mouseup', onMainPinClick);
   mapPins.addEventListener('mouseup', onPopupOpen);
   mapPins.addEventListener('keydown', onMapPinsEnterPress);
   typeInput.addEventListener('change', selectTypeInput);
   selectTimeIn.addEventListener('change', onSelectTimeIn);
   selectTimeOut.addEventListener('change', onSelectTimeOut);
-  selectRoomNamber.addEventListener('change', onSelectRoomNumber);
+  selectRoomNumber.addEventListener('change', onSelectRoomNumber);
   completeAddress(event);
+  changeField(selectCapacity, 1);
+  disableFields(fieldsCapacity);
+  enableFields(fieldsCapacity, 1);
 }
 
 function hasClass(element, className) {
@@ -258,22 +260,27 @@ function onPopupEscPress(event) {
 
 function selectTypeInput(evt) {
   var priceInput = notice.querySelector('#price');
-  if (evt.target.value === 'bungalo') {
-    priceInput.setAttribute('min', '0');
-  } else if (evt.target.value === 'flat') {
-    priceInput.setAttribute('min', '1000');
-  } else if (evt.target.value === 'house') {
-    priceInput.setAttribute('min', '5000');
-  } else if (evt.target.value === 'palace') {
-    priceInput.setAttribute('min', '10000');
+  switch (evt.target.value) {
+    case 'bungalo':
+      priceInput.setAttribute('min', '0');
+      break;
+    case 'flat':
+      priceInput.setAttribute('min', '1000');
+      break;
+    case 'house':
+      priceInput.setAttribute('min', '5000');
+      break;
+    default:
+      priceInput.setAttribute('min', '10000');
+      break;
   }
 }
 
 function completeAddress(event) {
   var inputAdress = notice.querySelector('#address');
-  var xCoordinat = event.pageX;
-  var yCoordinat = event.pageY;
-  inputAdress.setAttribute('value', 'X- ' + xCoordinat + ' Y- ' + yCoordinat);
+  var xCoordinat = event.pageX - MAP_PIN_WIDTH / 2;
+  var yCoordinat = event.pageY - MAP_PIN_HEIGHT;
+  inputAdress.setAttribute('value', xCoordinat + ' ' + yCoordinat);
 }
 
 function changeField(element, value) {
@@ -297,23 +304,20 @@ function disableFields(array) {
 function onSelectRoomNumber(event) {
   var guestValue = event.target.value < 100 ? event.target.value : 0;
   changeField(selectCapacity, guestValue);
-  disableFields(fieldCapacity);
-  enableFields(fieldCapacity, guestValue);
+  disableFields(fieldsCapacity);
+  enableFields(fieldsCapacity, guestValue);
 }
 
-function enableFields(array, val) {
-  if (val) {
-    for (var i = 0; i < array.length - 1; i++) {
-      if (fieldCapacity[i].value <= val) {
-        array[i].removeAttribute('disabled');
+function enableFields(numberGuests, roomNum) {
+  if (roomNum) {
+    for (var i = 0; i < numberGuests.length - 1; i++) {
+      if (fieldsCapacity[i].value <= roomNum) {
+        numberGuests[i].removeAttribute('disabled');
       }
     }
   } else {
-    array[3].removeAttribute('disabled');
+    numberGuests[3].removeAttribute('disabled');
   }
 }
 
 disableForm();
-
-
-
