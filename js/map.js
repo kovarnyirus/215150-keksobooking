@@ -175,7 +175,7 @@ function unableForm() {
   }
 }
 
-function onMapPinMainMouseup() {
+function onMapPinMainMouseup(event) {
   map.classList.remove('map--faded');
   notice.querySelector('.notice__form').classList.remove('notice__form--disabled');
   unableForm();
@@ -186,7 +186,8 @@ function onMapPinMainMouseup() {
   typeInput.addEventListener('change', selectTypeInput);
   selectTimeIn.addEventListener('change', onSelectTimeIn);
   selectTimeOut.addEventListener('change', onSelectTimeOut);
-  selectRoomNamber.addEventListener('change', onSelectRoomNamber);
+  selectRoomNamber.addEventListener('change', onSelectRoomNumber);
+  completeAddress(event);
 }
 
 function hasClass(element, className) {
@@ -198,7 +199,6 @@ function hasClass(element, className) {
 }
 
 function getTargetElement(event) {
-
   return hasClass(event.target.parentElement, 'map__pin') ? event.target.parentElement : hasClass(event.target, 'map__pin') ? event.target : false;
 }
 
@@ -269,6 +269,13 @@ function selectTypeInput(evt) {
   }
 }
 
+function completeAddress(event) {
+  var inputAdress = notice.querySelector('#address');
+  var xCoordinat = event.pageX;
+  var yCoordinat = event.pageY;
+  inputAdress.setAttribute('value', 'X- ' + xCoordinat + ' Y- ' + yCoordinat);
+}
+
 function changeField(element, value) {
   element.value = value;
 }
@@ -287,7 +294,7 @@ function disableFields(array) {
   }
 }
 
-function onSelectRoomNamber(event) {
+function onSelectRoomNumber(event) {
   var guestValue = event.target.value < 100 ? event.target.value : 0;
   changeField(selectCapacity, guestValue);
   disableFields(fieldCapacity);
@@ -301,9 +308,12 @@ function enableFields(array, val) {
         array[i].removeAttribute('disabled');
       }
     }
-  }else {
+  } else {
     array[3].removeAttribute('disabled');
   }
 }
 
 disableForm();
+
+
+
