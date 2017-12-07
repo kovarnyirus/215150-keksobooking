@@ -160,9 +160,18 @@ function disableForm() {
   }
 }
 
+function unableForm() {
+  var elements = notice.querySelectorAll('fieldset');
+  mapPinMain.addEventListener('mouseup', onMapPinMainMouseup);
+  for (var i = 0; i < elements.length; i++) {
+    elements[i].removeAttribute('disabled');
+  }
+}
+
 function onMapPinMainMouseup() {
   map.classList.remove('map--faded');
   notice.querySelector('.notice__form').classList.remove('notice__form--disabled');
+  unableForm();
   renderMapPins(similarArray);
   mapPinMain.removeEventListener('mouseup', onMapPinMainMouseup);
   mapPins.addEventListener('mouseup', onPopupOpen);
@@ -242,3 +251,40 @@ function onPopupEscPress(event) {
 
 disableForm();
 
+
+
+var typeInput = notice.querySelector('#type');
+var roomNumberInput = notice.querySelector('#room_number');
+
+typeInput.addEventListener('input', function (evt) {
+  var priceInput = notice.querySelector('#price');
+  console.log(evt.target.value);
+  if (evt.target.value === 'bungalo') {
+    priceInput.setAttribute('min', '0');
+    priceInput.setAttribute('value', '0');
+  } else if (evt.target.value === 'flat') {
+    priceInput.setAttribute('min', '1000');
+    priceInput.setAttribute('value', '1000');
+  } else if (evt.target.value === 'house') {
+    priceInput.setAttribute('min', '5000');
+    priceInput.setAttribute('value', '5000');
+  } else if (evt.target.value === 'palace') {
+    priceInput.setAttribute('min', '10000');
+    priceInput.setAttribute('value', '10000');
+  }
+});
+
+roomNumberInput.addEventListener('change', function (evt) {
+  var capacityInput = notice.querySelector('#capacity');
+  console.log(evt.target.value);
+  if (evt.target.value === '1') {
+    capacityInput.childElement('value', '1');
+  }
+    // else if (evt.target.value === '2') {
+  //   priceInput.change('value', '1000');
+  // } else if (evt.target.value === '3') {
+  //   priceInput.setAttribute('value', '5000');
+  // } else if (evt.target.value === '0') {
+  //   priceInput.setAttribute('value', '10000');
+  // }
+});
