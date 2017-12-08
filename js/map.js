@@ -11,6 +11,12 @@ var TITLE_LIST = [
   'Уютное бунгало далеко от моря',
   'Неуютное бунгало по колено в воде'
 ];
+var ROOMS_PRICE_MIN = {
+  bungalo: '0',
+  flat: '1000',
+  house: '5000',
+  palace: '10000'
+};
 var MIN_PRICE = 1000;
 var MAX_PRICE = 1000000;
 var MIN_ROOM = 1;
@@ -40,6 +46,12 @@ var ENTER_KEYCODE = 13;
 var mapPinMain = map.querySelector('.map__pin--main');
 var mapPinActive;
 var popupClose;
+var typeInput = notice.querySelector('#type');
+var selectTimeIn = notice.querySelector('#timein');
+var selectTimeOut = notice.querySelector('#timeout');
+var selectRoomNumber = notice.querySelector('#room_number');
+var selectCapacity = notice.querySelector('#capacity');
+var fieldsCapacity = selectCapacity.querySelectorAll('option');
 
 function getRandomBetween(minValue, maxValue) {
   return Math.round(Math.random() * (maxValue - minValue) + minValue);
@@ -154,19 +166,36 @@ function generateCard(card) {
 
 function disableForm() {
   var elements = notice.querySelectorAll('fieldset');
-  mapPinMain.addEventListener('mouseup', onMapPinMainMouseup);
+  mapPinMain.addEventListener('mouseup', onMainPinClick);
   for (var i = 0; i < elements.length; i++) {
     elements[i].setAttribute('disabled', 'disabled');
   }
 }
 
-function onMapPinMainMouseup() {
+function enableForm() {
+  var elements = notice.querySelectorAll('fieldset');
+  mapPinMain.addEventListener('mouseup', onMainPinClick);
+  for (var i = 0; i < elements.length; i++) {
+    elements[i].removeAttribute('disabled');
+  }
+}
+
+function onMainPinClick(event) {
   map.classList.remove('map--faded');
   notice.querySelector('.notice__form').classList.remove('notice__form--disabled');
+  enableForm();
   renderMapPins(similarArray);
-  mapPinMain.removeEventListener('mouseup', onMapPinMainMouseup);
+  mapPinMain.removeEventListener('mouseup', onMainPinClick);
   mapPins.addEventListener('mouseup', onPopupOpen);
   mapPins.addEventListener('keydown', onMapPinsEnterPress);
+  typeInput.addEventListener('change', selectTypeInput);
+  selectTimeIn.addEventListener('change', onSelectTimeIn);
+  selectTimeOut.addEventListener('change', onSelectTimeOut);
+  selectRoomNumber.addEventListener('change', onSelectRoomNumber);
+  completeAddress(event);
+  changeField(selectCapacity, 1);
+  disableOptions(fieldsCapacity);
+  enableOptions(fieldsCapacity, 1);
 }
 
 function hasClass(element, className) {
@@ -180,11 +209,8 @@ function hasClass(element, className) {
 function getTargetElement(event) {
   if (hasClass(event.target.parentElement, 'map__pin')) {
     return event.target.parentElement;
-  } else if (hasClass(event.target, 'map__pin')) {
-    return event.target;
-  } else {
-    return false;
   }
+  return hasClass(event.target, 'map__pin') ? event.target : false;
 }
 
 function onPopupOpen(event) {
@@ -239,6 +265,56 @@ function onPopupEscPress(event) {
     map.removeEventListener('keydown', onPopupEscPress);
   }
 }
+// task2
+
+function selectTypeInput(evt) {
+  var priceInput = notice.querySelector('#price');
+
+  priceInput.setAttribute('min', ROOMS_PRICE_MIN[evt.target.value]);
+}
+
+function completeAddress(event) {
+  var inputAdress = notice.querySelector('#address');
+  var x = event.pageX - MAP_PIN_WIDTH / 2;
+  var y = event.pageY - MAP_PIN_HEIGHT;
+  inputAdress.setAttribute('value', x + ' ' + y);
+}
+
+function changeField(element, value) {
+  element.value = value;
+}
+
+function onSelectTimeIn(event) {
+  changeField(selectTimeOut, event.target.value);
+}
+
+function onSelectTimeOut(event) {
+  changeField(selectTimeIn, event.target.value);
+}
+
+function onSelectRoomNumber(event) {
+  var guestValue = event.target.value < 100 ? event.target.value : 0;
+  changeField(selectCapacity, guestValue);
+  disableOptions(fieldsCapacity);
+  enableOptions(fieldsCapacity, guestValue);
+}
+
+function disableOptions(array) {
+  for (var i = 0; i < array.length; i++) {
+    array[i].setAttribute('disabled', 'disabled');
+  }
+}
+
+function enableOptions(numberGuests, roomNum) {
+  if (roomNum) {
+    for (var i = 0; i < numberGuests.length - 1; i++) {
+      if (fieldsCapacity[i].value <= roomNum) {
+        numberGuests[i].removeAttribute('disabled');
+      }
+    }
+  } else {
+    numberGuests[3].removeAttribute('disabled');
+  }
+}
 
 disableForm();
-
