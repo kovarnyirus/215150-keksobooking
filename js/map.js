@@ -11,6 +11,12 @@ var TITLE_LIST = [
   'Уютное бунгало далеко от моря',
   'Неуютное бунгало по колено в воде'
 ];
+var ROOMS_PRICE_MIN = {
+  bungalo: '0',
+  flat: '1000',
+  house: '5000',
+  palace: '10000'
+};
 var MIN_PRICE = 1000;
 var MAX_PRICE = 1000000;
 var MIN_ROOM = 1;
@@ -201,7 +207,9 @@ function hasClass(element, className) {
 }
 
 function getTargetElement(event) {
-  return hasClass(event.target.parentElement, 'map__pin') ? event.target.parentElement : hasClass(event.target, 'map__pin') ? event.target : false;
+  if (hasClass(event.target.parentElement, 'map__pin')) {
+    return event.target.parentElement;
+  } return hasClass(event.target, 'map__pin') ? event.target : false;
 }
 
 function onPopupOpen(event) {
@@ -260,20 +268,8 @@ function onPopupEscPress(event) {
 
 function selectTypeInput(evt) {
   var priceInput = notice.querySelector('#price');
-  switch (evt.target.value) {
-    case 'bungalo':
-      priceInput.setAttribute('min', '0');
-      break;
-    case 'flat':
-      priceInput.setAttribute('min', '1000');
-      break;
-    case 'house':
-      priceInput.setAttribute('min', '5000');
-      break;
-    default:
-      priceInput.setAttribute('min', '10000');
-      break;
-  }
+
+  priceInput.setAttribute('min', ROOMS_PRICE_MIN[evt.target.value]);
 }
 
 function completeAddress(event) {
