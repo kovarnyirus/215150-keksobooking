@@ -194,8 +194,8 @@ function onMainPinClick(event) {
   selectRoomNumber.addEventListener('change', onSelectRoomNumber);
   completeAddress(event);
   changeField(selectCapacity, 1);
-  disableFields(fieldsCapacity);
-  enableFields(fieldsCapacity, 1);
+  disableOptions(fieldsCapacity);
+  enableOptions(fieldsCapacity, 1);
 }
 
 function hasClass(element, className) {
@@ -209,7 +209,8 @@ function hasClass(element, className) {
 function getTargetElement(event) {
   if (hasClass(event.target.parentElement, 'map__pin')) {
     return event.target.parentElement;
-  } return hasClass(event.target, 'map__pin') ? event.target : false;
+  }
+  return hasClass(event.target, 'map__pin') ? event.target : false;
 }
 
 function onPopupOpen(event) {
@@ -274,9 +275,9 @@ function selectTypeInput(evt) {
 
 function completeAddress(event) {
   var inputAdress = notice.querySelector('#address');
-  var xCoordinat = event.pageX - MAP_PIN_WIDTH / 2;
-  var yCoordinat = event.pageY - MAP_PIN_HEIGHT;
-  inputAdress.setAttribute('value', xCoordinat + ' ' + yCoordinat);
+  var x = event.pageX - MAP_PIN_WIDTH / 2;
+  var y = event.pageY - MAP_PIN_HEIGHT;
+  inputAdress.setAttribute('value', x + ' ' + y);
 }
 
 function changeField(element, value) {
@@ -291,20 +292,20 @@ function onSelectTimeOut(event) {
   changeField(selectTimeIn, event.target.value);
 }
 
-function disableFields(array) {
+function onSelectRoomNumber(event) {
+  var guestValue = event.target.value < 100 ? event.target.value : 0;
+  changeField(selectCapacity, guestValue);
+  disableOptions(fieldsCapacity);
+  enableOptions(fieldsCapacity, guestValue);
+}
+
+function disableOptions(array) {
   for (var i = 0; i < array.length; i++) {
     array[i].setAttribute('disabled', 'disabled');
   }
 }
 
-function onSelectRoomNumber(event) {
-  var guestValue = event.target.value < 100 ? event.target.value : 0;
-  changeField(selectCapacity, guestValue);
-  disableFields(fieldsCapacity);
-  enableFields(fieldsCapacity, guestValue);
-}
-
-function enableFields(numberGuests, roomNum) {
+function enableOptions(numberGuests, roomNum) {
   if (roomNum) {
     for (var i = 0; i < numberGuests.length - 1; i++) {
       if (fieldsCapacity[i].value <= roomNum) {
