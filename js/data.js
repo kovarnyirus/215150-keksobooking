@@ -24,6 +24,8 @@
   var FEATURES_LIST = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
   var MIN_PRICE = 1000;
   var MAX_PRICE = 1000000;
+  var PIN_COUNT = 8;
+  var similarArray = createSimilarArray(PIN_COUNT);
 
 
   function cloneArray(array) {
@@ -83,8 +85,7 @@
     return array;
   }
 
-
   window.data = {
-    createSimilarArray: createSimilarArray
+    similarArray: similarArray
   };
 })();
