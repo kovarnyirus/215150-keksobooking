@@ -17,19 +17,11 @@
   function disableForm() {
     var elements = notice.querySelectorAll('fieldset');
     window.map.mapPinMain.addEventListener('mouseup', window.map.onMainPinClick);
-    elements.forEach(function (item) {
-      item.setAttribute('disabled', 'disabled');
-    });
+    window.utils.disableElements(elements);
   }
 
-  function enableForm() {
-    var elements = notice.querySelectorAll('fieldset');
-    elements.forEach(function (item) {
-      item.removeAttribute('disabled');
-    });
-  }
 
-  function enableOptions(numberGuests, roomNum) {
+  function enableCapacityField(numberGuests, roomNum) {
     if (roomNum) {
       for (var i = 0; i < numberGuests.length - 1; i++) {
         if (fieldsCapacity[i].value <= roomNum) {
@@ -41,25 +33,15 @@
     }
   }
 
-  function disableOptions(array) {
-    for (var i = 0; i < array.length; i++) {
-      array[i].setAttribute('disabled', 'disabled');
-    }
-  }
-
   function onSelectRoomNumber(event) {
     var guestValue = event.target.value < 100 ? event.target.value : 0;
-    setFieldValue(selectCapacity, guestValue);
-    disableOptions(fieldsCapacity);
-    enableOptions(fieldsCapacity, guestValue);
+    window.utils.setFieldValue(selectCapacity, guestValue);
+    window.utils.disableOptions(fieldsCapacity);
+    enableCapacityField(fieldsCapacity, guestValue);
   }
 
   function onSelectTimeOut(event) {
-    setFieldValue(selectTimeIn, event.target.value);
-  }
-
-  function setFieldValue(element, value) {
-    element.value = value;
+    window.utils.setFieldValue(selectTimeIn, event.target.value);
   }
 
   function setAddress(event) {
@@ -76,18 +58,18 @@
   }
 
   function onSelectTimeIn(event) {
-    setFieldValue(selectTimeOut, event.target.value);
+    window.utils.setFieldValue(selectTimeOut, event.target.value);
   }
 
   function runForm(event) {
-    enableForm();
+    window.utils.enableElements(notice, 'fieldset');
     typeInput.addEventListener('change', selectTypeInput);
     selectTimeIn.addEventListener('change', onSelectTimeIn);
     selectTimeOut.addEventListener('change', onSelectTimeOut);
     selectRoomNumber.addEventListener('change', onSelectRoomNumber);
-    setFieldValue(selectCapacity, 1);
-    disableOptions(fieldsCapacity);
-    enableOptions(fieldsCapacity, 1);
+    window.utils.setFieldValue(selectCapacity, 1);
+    window.utils.disableOptions(fieldsCapacity);
+    enableCapacityField(fieldsCapacity, 1);
     setAddress(event);
   }
 
