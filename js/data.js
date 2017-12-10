@@ -25,7 +25,7 @@
   var MIN_PRICE = 1000;
   var MAX_PRICE = 1000000;
   var PIN_COUNT = 8;
-  var similarArray = createSimilarArray(PIN_COUNT);
+  var similarArray = createAdsArray(PIN_COUNT);
 
 
   function cloneArray(array) {
@@ -50,14 +50,15 @@
     return newArray;
   }
 
-  function createSimilarArray(lengthArray) {
+  function createAdsArray(lengthArray) {
     var array = [];
     var similarObj = {};
+    var x;
+    var y;
 
     for (var i = 0; i < lengthArray; i++) {
-      var x = getRandomBetween(MIN_X, MAX_X);
-      var y = getRandomBetween(MIN_Y, MAX_Y);
-
+      x = getRandomBetween(MIN_X, MAX_X);
+      y = getRandomBetween(MIN_Y, MAX_Y);
       similarObj = {
         author: {
           avatar: 'img/avatars/user0' + (i + 1) + '.png'
@@ -86,6 +87,7 @@
   }
 
   window.data = {
-    similarArray: similarArray
+    similarArray: similarArray,
+    getRandomArrayItems: getRandomArrayItems
   };
 })();

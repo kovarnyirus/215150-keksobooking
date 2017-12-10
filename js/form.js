@@ -17,17 +17,16 @@
   function disableForm() {
     var elements = notice.querySelectorAll('fieldset');
     window.map.mapPinMain.addEventListener('mouseup', window.map.onMainPinClick);
-    for (var i = 0; i < elements.length; i++) {
-      elements[i].setAttribute('disabled', 'disabled');
-    }
+    elements.forEach(function (item) {
+      item.setAttribute('disabled', 'disabled');
+    });
   }
 
   function enableForm() {
     var elements = notice.querySelectorAll('fieldset');
-    window.map.mapPinMain.addEventListener('mouseup', window.map.onMainPinClick);
-    for (var i = 0; i < elements.length; i++) {
-      elements[i].removeAttribute('disabled');
-    }
+    elements.forEach(function (item) {
+      item.removeAttribute('disabled');
+    });
   }
 
   function enableOptions(numberGuests, roomNum) {
@@ -50,20 +49,20 @@
 
   function onSelectRoomNumber(event) {
     var guestValue = event.target.value < 100 ? event.target.value : 0;
-    changeField(selectCapacity, guestValue);
+    setFieldValue(selectCapacity, guestValue);
     disableOptions(fieldsCapacity);
     enableOptions(fieldsCapacity, guestValue);
   }
 
   function onSelectTimeOut(event) {
-    changeField(selectTimeIn, event.target.value);
+    setFieldValue(selectTimeIn, event.target.value);
   }
 
-  function changeField(element, value) {
+  function setFieldValue(element, value) {
     element.value = value;
   }
 
-  function completeAddress(event) {
+  function setAddress(event) {
     var inputAdress = notice.querySelector('#address');
     var x = event.pageX - window.pin.MAP_PIN_WIDTH / 2;
     var y = event.pageY - window.pin.MAP_PIN_HEIGHT;
@@ -77,7 +76,7 @@
   }
 
   function onSelectTimeIn(event) {
-    changeField(selectTimeOut, event.target.value);
+    setFieldValue(selectTimeOut, event.target.value);
   }
 
   function runForm(event) {
@@ -86,10 +85,10 @@
     selectTimeIn.addEventListener('change', onSelectTimeIn);
     selectTimeOut.addEventListener('change', onSelectTimeOut);
     selectRoomNumber.addEventListener('change', onSelectRoomNumber);
-    changeField(selectCapacity, 1);
+    setFieldValue(selectCapacity, 1);
     disableOptions(fieldsCapacity);
     enableOptions(fieldsCapacity, 1);
-    completeAddress(event);
+    setAddress(event);
   }
 
   window.form = {

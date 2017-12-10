@@ -7,6 +7,9 @@
   function removeClass(element, className) {
     element.classList.remove(className);
   }
+  function addClass(element, className) {
+    element.classList.add(className);
+  }
 
   function onMainPinClick(event) {
     map.classList.remove('map--faded');
@@ -40,7 +43,8 @@
     map: map,
     mapPins: mapPins,
     getTargetElement: getTargetElement,
-    hasClass: hasClass
+    hasClass: hasClass,
+    addClass: addClass
   };
 
   window.form.disableForm();

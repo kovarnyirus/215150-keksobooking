@@ -7,7 +7,7 @@
   var mapCardTemplate = document.querySelector('template').content;
   var mapCardElement = mapCardTemplate.querySelector('.map__card').cloneNode(true);
 
-  function generateCard(card) {
+  function renderCard(card) {
     var mapTextElements = mapCardElement.querySelectorAll('p');
 
     mapCardElement.querySelector('h3').textContent = card.offer.title;
@@ -71,8 +71,8 @@
       if (mapPinActive) {
         window.map.removeClass(mapPinActive, 'map__pin--active');
       }
-      generateCard(window.data.similarArray[mapPinTarget.id]);
-      mapPinTarget.classList.add('map__pin--active');
+      renderCard(window.data.similarArray[mapPinTarget.id]);
+      window.map.addClass(mapPinTarget, 'map__pin--active');
       mapPinActive = mapPinTarget;
       popupClose = window.map.map.querySelector('.popup__close');
       popupClose.addEventListener('mouseup', onPopupClose);
