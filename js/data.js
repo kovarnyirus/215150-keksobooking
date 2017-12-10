@@ -42,11 +42,10 @@
 
   function getRandomArrayItems(array, items) {
     var copyArray = cloneArray(array);
-    var newArray = [];
+    var newArray;
     copyArray.sort(compareRandom);
-    for (var i = 0; i < items; i++) {
-      newArray.push(array[i]);
-    }
+    newArray = copyArray.slice(0, items + 1);
+
     return newArray;
   }
 
@@ -67,7 +66,7 @@
           title: TITLE_LIST.pop(),
           address: x + ',' + y,
           price: getRandomBetween(MIN_PRICE, MAX_PRICE),
-          type: TYPE_LIST[getRandomBetween(1, 3)],
+          type: TYPE_LIST[getRandomBetween(0, 2)],
           rooms: getRandomBetween(MIN_ROOM, MAX_ROOM),
           guests: getRandomBetween(MIN_GUEST, MAX_GUEST),
           checkin: CHECKIN[getRandomBetween(0, 2)],
