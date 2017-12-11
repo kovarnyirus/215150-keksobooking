@@ -23,8 +23,8 @@
     }
   }
 
-  function renderMapPins(elements) {
-    window.map.mapPins.appendChild(window.utils.fillFragmentWith(elements, createMapPin));
+  function renderMapPins(dataArray) {
+    window.map.mapPins.appendChild(window.utils.fillFragmentWith(dataArray, createMapPin));
   }
 
   window.pin = {

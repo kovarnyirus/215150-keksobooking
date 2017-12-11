@@ -75,7 +75,7 @@
   function fillFragmentWith(dataArray, cb) {
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < dataArray.length; i++) {
-      fragment.appendChild(cb(window.data.similarArray, i));
+      fragment.appendChild(cb(dataArray, i));
     }
     return fragment;
   }
