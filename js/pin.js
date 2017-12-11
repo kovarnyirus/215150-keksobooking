@@ -2,7 +2,6 @@
 (function () {
   var MAP_PIN_WIDTH = 45;
   var MAP_PIN_HEIGHT = 62;
-  var ENTER_KEYCODE = 13;
   var mapPin = window.card.mapCardTemplate.querySelector('.map__pin');
 
 
@@ -19,24 +18,26 @@
   }
 
   function onMapPinsEnterPress(event) {
-    if (event.keyCode === ENTER_KEYCODE) {
+    if (window.utils.isEnterKeyPress(event)) {
       window.card.onPopupOpen(event);
     }
   }
 
-  function renderMapPins(array) {
-    var fragment = document.createDocumentFragment();
+  function renderMapPins(elements) {
+    window.map.mapPins.appendChild(fillFragmentElements(elements));
+  }
 
-    for (var i = 0; i < array.length; i++) {
+  function fillFragmentElements(elements) {
+    var fragment = document.createDocumentFragment();
+    for (var i = 0; i < elements.length; i++) {
       fragment.appendChild(createMapPin(i));
     }
-    window.map.mapPins.appendChild(fragment);
+    return fragment;
   }
 
   window.pin = {
     MAP_PIN_WIDTH: MAP_PIN_WIDTH,
     MAP_PIN_HEIGHT: MAP_PIN_HEIGHT,
-    ENTER_KEYCODE: ENTER_KEYCODE,
     renderMapPins: renderMapPins,
     onMapPinsEnterPress: onMapPinsEnterPress
   };

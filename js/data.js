@@ -27,28 +27,6 @@
   var PIN_COUNT = 8;
   var similarArray = createAdsArray(PIN_COUNT);
 
-
-  function cloneArray(array) {
-    return array.concat();
-  }
-
-  function compareRandom() {
-    return Math.random() - 0.5;
-  }
-
-  function getRandomBetween(minValue, maxValue) {
-    return Math.round(Math.random() * (maxValue - minValue) + minValue);
-  }
-
-  function getRandomArrayItems(array, items) {
-    var copyArray = cloneArray(array);
-    var newArray;
-    copyArray.sort(compareRandom);
-    newArray = copyArray.slice(0, items + 1);
-
-    return newArray;
-  }
-
   function createAdsArray(lengthArray) {
     var array = [];
     var similarObj = {};
@@ -56,8 +34,8 @@
     var y;
 
     for (var i = 0; i < lengthArray; i++) {
-      x = getRandomBetween(MIN_X, MAX_X);
-      y = getRandomBetween(MIN_Y, MAX_Y);
+      x = window.utils.getRandomBetween(MIN_X, MAX_X);
+      y = window.utils.getRandomBetween(MIN_Y, MAX_Y);
       similarObj = {
         author: {
           avatar: 'img/avatars/user0' + (i + 1) + '.png'
@@ -65,13 +43,13 @@
         offer: {
           title: TITLE_LIST.pop(),
           address: x + ',' + y,
-          price: getRandomBetween(MIN_PRICE, MAX_PRICE),
-          type: TYPE_LIST[getRandomBetween(0, 2)],
-          rooms: getRandomBetween(MIN_ROOM, MAX_ROOM),
-          guests: getRandomBetween(MIN_GUEST, MAX_GUEST),
-          checkin: CHECKIN[getRandomBetween(0, 2)],
-          checkout: CHECKOUT[getRandomBetween(0, 2)],
-          features: getRandomArrayItems(FEATURES_LIST, 3),
+          price: window.utils.getRandomBetween(MIN_PRICE, MAX_PRICE),
+          type: TYPE_LIST[window.utils.getRandomBetween(0, 2)],
+          rooms: window.utils.getRandomBetween(MIN_ROOM, MAX_ROOM),
+          guests: window.utils.getRandomBetween(MIN_GUEST, MAX_GUEST),
+          checkin: CHECKIN[window.utils.getRandomBetween(0, 2)],
+          checkout: CHECKOUT[window.utils.getRandomBetween(0, 2)],
+          features: window.utils.getRandomArrayItems(FEATURES_LIST, 3),
           description: ' ',
           photos: []
         },
@@ -86,7 +64,6 @@
   }
 
   window.data = {
-    similarArray: similarArray,
-    getRandomArrayItems: getRandomArrayItems
+    similarArray: similarArray
   };
 })();

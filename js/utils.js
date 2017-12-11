@@ -1,5 +1,8 @@
 'use strict';
 (function () {
+  var ENTER_KEYCODE = 13;
+  var ESC_KEYCODE = 27;
+
   function removeClass(element, className) {
     element.classList.remove(className);
   }
@@ -46,6 +49,35 @@
     });
   }
 
+  function isEscKeyPress(event) {
+    return event.keyCode === ESC_KEYCODE;
+  }
+
+  function isEnterKeyPress(event) {
+    return event.keyCode === ENTER_KEYCODE;
+  }
+
+  function cloneArray(array) {
+    return array.concat();
+  }
+
+  function compareRandom() {
+    return Math.random() - 0.5;
+  }
+
+  function getRandomBetween(minValue, maxValue) {
+    return Math.round(Math.random() * (maxValue - minValue) + minValue);
+  }
+
+  function getRandomArrayItems(array, items) {
+    var copyArray = cloneArray(array);
+    var newArray;
+    copyArray.sort(compareRandom);
+    newArray = copyArray.slice(0, items + 1);
+
+    return newArray;
+  }
+
   window.utils = {
     removeClass: removeClass,
     addClass: addClass,
@@ -54,7 +86,13 @@
     setFieldValue: setFieldValue,
     disableOptions: disableOptions,
     enableElements: enableElements,
-    disableElements: disableElements
+    disableElements: disableElements,
+    isEnterKeyPress: isEnterKeyPress,
+    isEscKeyPress: isEscKeyPress,
+    cloneArray: cloneArray,
+    compareRandom: compareRandom,
+    getRandomBetween: getRandomBetween,
+    getRandomArrayItems: getRandomArrayItems
 
   };
 })();

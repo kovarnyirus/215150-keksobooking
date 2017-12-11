@@ -1,6 +1,5 @@
 'use strict';
 (function () {
-  var ESC_KEYCODE = 27;
   var popupClose;
   var mapPinActive;
   var beforeElement = document.querySelector('.map__filters-container');
@@ -24,7 +23,7 @@
   }
 
   function onPopupCloseEnterPress(evt) {
-    if (evt.keyCode === window.pin.ENTER_KEYCODE) {
+    if (window.utils.isEnterKeyPress(evt)) {
       onPopupClose();
     }
   }
@@ -48,7 +47,7 @@
   }
 
   function onPopupEscPress(event) {
-    if (event.keyCode === window.card.ESC_KEYCODE) {
+    if (window.utils.isEscKeyPress(event)) {
       onPopupClose();
       window.map.map.removeEventListener('keydown', onPopupEscPress);
     }
@@ -83,7 +82,6 @@
 
 
   window.card = {
-    ESC_KEYCODE: ESC_KEYCODE,
     mapCardTemplate: mapCardTemplate,
     onPopupOpen: onPopupOpen
   };
