@@ -14,9 +14,7 @@
   function hasClass(element, className) {
     if (element) {
       return element.classList.contains(className);
-    } else {
-      return false;
-    }
+    } return false;
   }
 
   function getTargetElement(event, className) {
@@ -31,9 +29,9 @@
   }
 
   function disableOptions(elements) {
-    for (var i = 0; i < elements.length; i++) {
+    elements.forEach(function (item, i) {
       elements[i].setAttribute('disabled', 'disabled');
-    }
+    });
   }
 
   function enableElements(parentItem, childItems) {
@@ -70,12 +68,15 @@
   }
 
   function getRandomArrayItems(array, items) {
-    var copyArray = cloneArray(array);
-    var newArray;
-    copyArray.sort(compareRandom);
-    newArray = copyArray.slice(0, items + 1);
+    return cloneArray(array).sort(compareRandom).slice(0, items + 1);
+  }
 
-    return newArray;
+  function fillFragmentWith(dataArray, cb) {
+    var fragment = document.createDocumentFragment();
+    for (var i = 0; i < dataArray.length; i++) {
+      fragment.appendChild(cb(i));
+    }
+    return fragment;
   }
 
   window.utils = {
@@ -92,7 +93,7 @@
     cloneArray: cloneArray,
     compareRandom: compareRandom,
     getRandomBetween: getRandomBetween,
-    getRandomArrayItems: getRandomArrayItems
-
+    getRandomArrayItems: getRandomArrayItems,
+    fillFragmentWith: fillFragmentWith
   };
 })();

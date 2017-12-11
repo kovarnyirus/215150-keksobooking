@@ -24,15 +24,7 @@
   }
 
   function renderMapPins(elements) {
-    window.map.mapPins.appendChild(fillFragmentElements(elements));
-  }
-
-  function fillFragmentElements(elements) {
-    var fragment = document.createDocumentFragment();
-    for (var i = 0; i < elements.length; i++) {
-      fragment.appendChild(createMapPin(i));
-    }
-    return fragment;
+    window.map.mapPins.appendChild(window.utils.fillFragmentWith(elements, createMapPin));
   }
 
   window.pin = {

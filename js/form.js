@@ -48,7 +48,7 @@
     var inputAdress = notice.querySelector('#address');
     var x = event.pageX - window.pin.MAP_PIN_WIDTH / 2;
     var y = event.pageY - window.pin.MAP_PIN_HEIGHT;
-    inputAdress.setAttribute('value', x + ' ' + y);
+    inputAdress.setAttribute('value', 'x: ' + x + ' y: ' + y);
   }
 
   function selectTypeInput(evt) {

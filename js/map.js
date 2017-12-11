@@ -17,7 +17,7 @@
     mapPinMain: mapPinMain,
     onMainPinClick: onMainPinClick,
     map: map,
-    mapPins: mapPins,
+    mapPins: mapPins
   };
 
 })();
