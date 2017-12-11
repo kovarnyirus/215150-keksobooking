@@ -8,12 +8,12 @@
   function createMapPin(element, index) {
     var mapPinChild = mapPin.cloneNode(true);
     var mapPinChildImg = mapPinChild.querySelector('img');
-    var xPosition = element[index].location.x - MAP_PIN_WIDTH / 2;
-    var yPosition = element[index].location.y - MAP_PIN_HEIGHT;
+    var xPosition = element.location.x - MAP_PIN_WIDTH / 2;
+    var yPosition = element.location.y - MAP_PIN_HEIGHT;
 
     mapPinChild.setAttribute('style', 'left:' + xPosition + 'px; top:' + yPosition + 'px');
     mapPinChild.setAttribute('id', +[index]);
-    mapPinChildImg.setAttribute('src', element[index].author.avatar);
+    mapPinChildImg.setAttribute('src', element.author.avatar);
     return mapPinChild;
   }
 

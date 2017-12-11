@@ -74,9 +74,12 @@
 
   function fillFragmentWith(dataArray, cb) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < dataArray.length; i++) {
-      fragment.appendChild(cb(dataArray, i));
-    }
+    dataArray.forEach(function (item, i) {
+      fragment.appendChild(cb(item, i));
+    });
+    // for (var i = 0; i < dataArray.length; i++) {
+    //   fragment.appendChild(cb(dataArray, i));
+    // }
     return fragment;
   }
 
