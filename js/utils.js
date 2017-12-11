@@ -14,7 +14,8 @@
   function hasClass(element, className) {
     if (element) {
       return element.classList.contains(className);
-    } return false;
+    }
+    return false;
   }
 
   function getTargetElement(event, className) {
@@ -74,7 +75,7 @@
   function fillFragmentWith(dataArray, cb) {
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < dataArray.length; i++) {
-      fragment.appendChild(cb(i));
+      fragment.appendChild(cb(window.data.similarArray, i));
     }
     return fragment;
   }

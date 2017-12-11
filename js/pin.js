@@ -5,15 +5,15 @@
   var mapPin = window.card.mapCardTemplate.querySelector('.map__pin');
 
 
-  function createMapPin(index) {
+  function createMapPin(element, index) {
     var mapPinChild = mapPin.cloneNode(true);
     var mapPinChildImg = mapPinChild.querySelector('img');
-    var xPosition = window.data.similarArray[index].location.x - MAP_PIN_WIDTH / 2;
-    var yPosition = window.data.similarArray[index].location.y - MAP_PIN_HEIGHT;
+    var xPosition = element[index].location.x - MAP_PIN_WIDTH / 2;
+    var yPosition = element[index].location.y - MAP_PIN_HEIGHT;
 
     mapPinChild.setAttribute('style', 'left:' + xPosition + 'px; top:' + yPosition + 'px');
     mapPinChild.setAttribute('id', +[index]);
-    mapPinChildImg.setAttribute('src', window.data.similarArray[index].author.avatar);
+    mapPinChildImg.setAttribute('src', element[index].author.avatar);
     return mapPinChild;
   }
 

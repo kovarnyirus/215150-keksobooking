@@ -13,6 +13,7 @@
     mapPins.addEventListener('keydown', window.pin.onMapPinsEnterPress);
     window.form.runForm(event);
   }
+
   window.map = {
     mapPinMain: mapPinMain,
     onMainPinClick: onMainPinClick,
