@@ -64,6 +64,8 @@
   }
 
   window.data = {
-    similarArray: similarArray
+    similarArray: similarArray,
+    MIN_Y: MIN_Y,
+    MAX_Y: MAX_Y
   };
 })();
