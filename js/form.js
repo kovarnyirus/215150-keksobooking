@@ -20,7 +20,6 @@
     window.utils.disableElements(elements);
   }
 
-
   function enableCapacityField(numberGuests, roomNum) {
     if (roomNum) {
       for (var i = 0; i < numberGuests.length - 1; i++) {

@@ -16,9 +16,9 @@
     window.form.notice.querySelector('.notice__form').classList.remove('notice__form--disabled');
     window.showCard();
     // window.pin.renderMapPins(window.data.similarArray);
-    // mapPinMain.removeEventListener('mouseup', onMainPinClick);
-    // mapPins.addEventListener('mouseup', window.card.onPopupOpen);
-    // mapPins.addEventListener('keydown', window.pin.onMapPinsEnterPress);
+    mapPinMain.removeEventListener('mouseup', onMainPinClick);
+    mapPins.addEventListener('mouseup', window.card.onPopupOpen);
+    mapPins.addEventListener('keydown', window.pin.onMapPinsEnterPress);
     window.form.runForm(event);
     mapPinMain.addEventListener('mousedown', mapPinMainMove);
   }
