@@ -14,10 +14,11 @@
   function onMainPinClick(event) {
     map.classList.remove('map--faded');
     window.form.notice.querySelector('.notice__form').classList.remove('notice__form--disabled');
-    window.pin.renderMapPins(window.data.similarArray);
-    mapPinMain.removeEventListener('mouseup', onMainPinClick);
-    mapPins.addEventListener('mouseup', window.card.onPopupOpen);
-    mapPins.addEventListener('keydown', window.pin.onMapPinsEnterPress);
+    window.showCard();
+    // window.pin.renderMapPins(window.data.similarArray);
+    // mapPinMain.removeEventListener('mouseup', onMainPinClick);
+    // mapPins.addEventListener('mouseup', window.card.onPopupOpen);
+    // mapPins.addEventListener('keydown', window.pin.onMapPinsEnterPress);
     window.form.runForm(event);
     mapPinMain.addEventListener('mousedown', mapPinMainMove);
   }
@@ -69,7 +70,8 @@
     mapPinMain: mapPinMain,
     onMainPinClick: onMainPinClick,
     map: map,
-    mapPins: mapPins
+    mapPins: mapPins,
+    mapPinMainMove: mapPinMainMove
   };
 
 })();
