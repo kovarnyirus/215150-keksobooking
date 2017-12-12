@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-  var MIN_MAP_PIN_WIDTH = 62;
+  var MAIN_MAP_PIN_WIDTH = 62;
   var MAIN_MAP_PIN_HEIGHT = 87;
   var MIN_X = 50;
   var MAX_X = 1150;
@@ -53,7 +53,7 @@
     if (mapPinMainOffsetLeft >= MIN_X && mapPinMainOffsetLeft <= MAX_X) {
       mapPinMain.style.left = mapPinMainOffsetLeft + 'px';
     }
-    window.form.setAddress(moveEvt, MIN_MAP_PIN_WIDTH, MAIN_MAP_PIN_HEIGHT);
+    window.form.setAddress(moveEvt, MAIN_MAP_PIN_WIDTH, MAIN_MAP_PIN_HEIGHT);
 
 
   }
