@@ -44,10 +44,10 @@
     window.utils.setFieldValue(selectTimeIn, event.target.value);
   }
 
-  function setAddress(event) {
+  function setAddress(event, elementWidth, elementHeight) {
     var inputAdress = notice.querySelector('#address');
-    var x = event.pageX - window.pin.MAP_PIN_WIDTH / 2;
-    var y = event.pageY - window.pin.MAP_PIN_HEIGHT;
+    var x = event.pageX + elementWidth / 2;
+    var y = event.pageY + elementHeight;
     inputAdress.setAttribute('value', 'x: ' + x + ' y: ' + y);
   }
 
@@ -70,12 +70,13 @@
     window.utils.setFieldValue(selectCapacity, 1);
     window.utils.disableOptions(fieldsCapacity);
     enableCapacityField(fieldsCapacity, 1);
-    setAddress(event);
+    setAddress(event, window.pin.MAP_PIN_WIDTH, window.pin.MAP_PIN_HEIGHT);
   }
 
   window.form = {
     runForm: runForm,
     notice: notice,
+    setAddress: setAddress,
     disableForm: disableForm
   };
 
