@@ -2,13 +2,14 @@
 (function () {
   var MIN_MAP_PIN_WIDTH = 62;
   var MAIN_MAP_PIN_HEIGHT = 87;
-  var MIN_X = 400;
-  var MAX_X = 1500;
+  var MIN_X = 50;
+  var MAX_X = 1150;
   var MIN_Y = 124;
-  var MAX_Y = 625;
+  var MAX_Y = 650;
   var map = document.querySelector('.map');
   var mapPins = document.querySelector('.map__pins');
   var mapPinMain = map.querySelector('.map__pin--main');
+  var startCoords;
 
   function onMainPinClick(event) {
     map.classList.remove('map--faded');
@@ -21,9 +22,6 @@
     mapPinMain.addEventListener('mousedown', mapPinMainMove);
   }
 
-
-
-
   function mapPinMainMove(event) {
     event.preventDefault();
     startCoords = {
@@ -34,8 +32,6 @@
     document.addEventListener('mouseup', onMouseUp);
   }
 
-  var startCoords;
-
   function onMouseMove(moveEvt) {
     moveEvt.preventDefault();
 
@@ -43,21 +39,21 @@
       x: startCoords.x - moveEvt.clientX,
       y: startCoords.y - moveEvt.clientY
     };
+    var mapPinMainOffsetLeft = mapPinMain.offsetLeft - shift.x;
+    var mapPinMainOffsetTop = mapPinMain.offsetTop - shift.y;
     startCoords = {
       x: moveEvt.clientX,
       y: moveEvt.clientY
     };
 
-    if (startCoords.y >= MIN_Y && startCoords.y <= MAX_Y) {
-      mapPinMain.style.top = (mapPinMain.offsetTop - shift.y) + 'px';
+    if (mapPinMainOffsetTop >= MIN_Y && mapPinMainOffsetTop <= MAX_Y) {
+      mapPinMain.style.top = mapPinMainOffsetTop + 'px';
     }
-    if (startCoords.x >= MIN_X && startCoords.x <= MAX_X) {
-      mapPinMain.style.left = (mapPinMain.offsetLeft - shift.x) + 'px';
+    if (mapPinMainOffsetLeft >= MIN_X && mapPinMainOffsetLeft <= MAX_X) {
+      mapPinMain.style.left = mapPinMainOffsetLeft + 'px';
     }
-
-
-
     window.form.setAddress(moveEvt, MIN_MAP_PIN_WIDTH, MAIN_MAP_PIN_HEIGHT);
+
 
   }
 
