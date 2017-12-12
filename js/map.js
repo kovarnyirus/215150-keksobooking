@@ -9,7 +9,7 @@
   var map = document.querySelector('.map');
   var mapPins = document.querySelector('.map__pins');
   var mapPinMain = map.querySelector('.map__pin--main');
-  var startCoords;
+  var mainPinLastCoords;
 
   function onMainPinClick(event) {
     map.classList.remove('map--faded');
@@ -24,27 +24,28 @@
 
   function mapPinMainMove(event) {
     event.preventDefault();
-    startCoordsWrite(event);
+    setMainPinLastCoords(event);
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   }
 
-  function startCoordsWrite(event) {
-    startCoords = {
+  function setMainPinLastCoords(event) {
+    mainPinLastCoords = {
       x: event.clientX,
       y: event.clientY
     };
   }
+
   function onMouseMove(moveEvt) {
     moveEvt.preventDefault();
 
     var shift = {
-      x: startCoords.x - moveEvt.clientX,
-      y: startCoords.y - moveEvt.clientY
+      x: mainPinLastCoords.x - moveEvt.clientX,
+      y: mainPinLastCoords.y - moveEvt.clientY
     };
     var mapPinMainOffsetLeft = mapPinMain.offsetLeft - shift.x;
     var mapPinMainOffsetTop = mapPinMain.offsetTop - shift.y;
-    startCoordsWrite(moveEvt);
+    setMainPinLastCoords(moveEvt);
 
     if (mapPinMainOffsetTop >= MIN_Y && mapPinMainOffsetTop <= MAX_Y) {
       mapPinMain.style.top = mapPinMainOffsetTop + 'px';
