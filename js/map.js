@@ -24,14 +24,17 @@
 
   function mapPinMainMove(event) {
     event.preventDefault();
-    startCoords = {
-      x: event.clientX,
-      y: event.clientY
-    };
+    startCoordsWrite(event);
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   }
 
+  function startCoordsWrite(event) {
+    startCoords = {
+      x: event.clientX,
+      y: event.clientY
+    };
+  }
   function onMouseMove(moveEvt) {
     moveEvt.preventDefault();
 
@@ -41,10 +44,7 @@
     };
     var mapPinMainOffsetLeft = mapPinMain.offsetLeft - shift.x;
     var mapPinMainOffsetTop = mapPinMain.offsetTop - shift.y;
-    startCoords = {
-      x: moveEvt.clientX,
-      y: moveEvt.clientY
-    };
+    startCoordsWrite(moveEvt);
 
     if (mapPinMainOffsetTop >= MIN_Y && mapPinMainOffsetTop <= MAX_Y) {
       mapPinMain.style.top = mapPinMainOffsetTop + 'px';
