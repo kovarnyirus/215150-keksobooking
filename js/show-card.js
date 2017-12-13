@@ -1,6 +1,7 @@
 'use strict';
 (function () {
-  window.showCard = function () {
-    window.pin.renderMapPins(window.data.similarArray);
-  };
+  function showCard(mapPin) {
+    window.card.renderCard(mapPin);
+  }
+  window.showCard = showCard;
 })();
