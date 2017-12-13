@@ -1,11 +1,5 @@
 'use strict';
 (function () {
-  var ROOMS_PRICE_MIN = {
-    bungalo: '0',
-    flat: '1000',
-    house: '5000',
-    palace: '10000'
-  };
   var notice = document.querySelector('.notice');
   var typeInput = notice.querySelector('#type');
   var selectTimeIn = notice.querySelector('#timein');
@@ -13,13 +7,18 @@
   var selectRoomNumber = notice.querySelector('#room_number');
   var selectCapacity = notice.querySelector('#capacity');
   var fieldsCapacity = selectCapacity.querySelectorAll('option');
+  var priceInput = notice.querySelector('#price');
+  var ROOMS_PRICE_MIN = ['0', '1000', '5000', '10000'];
+  var ROOM_TYPE_LIST = ['bungalo', 'flat', 'house', 'palace'];
+  var TIME_LIST = ['12:00', '13:00', '14:00'];
+  var ROOMS_NUMBERS = ['1', '2', '3', '100'];
+  var GUESTS_NUMBERS = ['1', '2', '3', '0'];
 
   function disableForm() {
     var elements = notice.querySelectorAll('fieldset');
     window.map.mapPinMain.addEventListener('mouseup', window.map.onMainPinClick);
     window.utils.disableElements(elements);
   }
-
 
   function enableCapacityField(numberGuests, roomNum) {
     if (roomNum) {
@@ -33,15 +32,20 @@
     }
   }
 
-  function onSelectRoomNumber(event) {
-    var guestValue = event.target.value < 100 ? event.target.value : 0;
-    window.utils.setFieldValue(selectCapacity, guestValue);
-    window.utils.disableOptions(fieldsCapacity);
-    enableCapacityField(fieldsCapacity, guestValue);
+  function onSelectRoomNumber() {
+    window.synchronizeFields(selectRoomNumber, selectCapacity, ROOMS_NUMBERS, GUESTS_NUMBERS, syncFieldRooms);
   }
 
-  function onSelectTimeOut(event) {
-    window.utils.setFieldValue(selectTimeIn, event.target.value);
+  function selectTypeInput() {
+    window.synchronizeFields(typeInput, priceInput, ROOM_TYPE_LIST, ROOMS_PRICE_MIN, syncPriceFields);
+  }
+
+  function onSelectTimeIn() {
+    window.synchronizeFields(selectTimeIn, selectTimeOut, TIME_LIST, TIME_LIST, window.utils.setFieldValue);
+  }
+
+  function onSelectTimeOut() {
+    window.synchronizeFields(selectTimeOut, selectTimeIn, TIME_LIST, TIME_LIST, window.utils.setFieldValue);
   }
 
   function setAddress(event, elementWidth, elementHeight) {
@@ -51,14 +55,18 @@
     inputAdress.setAttribute('value', 'x: ' + x + ' y: ' + y);
   }
 
-  function selectTypeInput(evt) {
-    var priceInput = notice.querySelector('#price');
-
-    priceInput.setAttribute('min', ROOMS_PRICE_MIN[evt.target.value]);
+  function syncFieldRooms(element, value) {
+    window.utils.setFieldValue(element, value);
+    window.utils.disableOptions(fieldsCapacity);
+    if (value === '0') {
+      enableCapacityField(fieldsCapacity, false);
+    } else {
+      enableCapacityField(fieldsCapacity, value);
+    }
   }
 
-  function onSelectTimeIn(event) {
-    window.utils.setFieldValue(selectTimeOut, event.target.value);
+  function syncPriceFields(element, value) {
+    element.setAttribute('min', value);
   }
 
   function runForm(event) {

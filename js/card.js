@@ -70,7 +70,7 @@
       if (mapPinActive) {
         window.utils.removeClass(mapPinActive, 'map__pin--active');
       }
-      renderCard(window.data.similarArray[mapPinTarget.id]);
+      window.showCard(window.data.similarArray[mapPinTarget.id]);
       window.utils.addClass(mapPinTarget, 'map__pin--active');
       mapPinActive = mapPinTarget;
       popupClose = window.map.map.querySelector('.popup__close');
@@ -83,6 +83,7 @@
 
   window.card = {
     mapCardTemplate: mapCardTemplate,
-    onPopupOpen: onPopupOpen
+    onPopupOpen: onPopupOpen,
+    renderCard: renderCard
   };
 })();
