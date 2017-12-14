@@ -70,7 +70,7 @@
       if (mapPinActive) {
         window.utils.removeClass(mapPinActive, 'map__pin--active');
       }
-      window.showCard(window.data.similarArray[mapPinTarget.id]);
+      window.showCard(window.data.mapPinsArray[mapPinTarget.id]);
       window.utils.addClass(mapPinTarget, 'map__pin--active');
       mapPinActive = mapPinTarget;
       popupClose = window.map.map.querySelector('.popup__close');

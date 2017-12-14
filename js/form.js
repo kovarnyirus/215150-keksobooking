@@ -82,13 +82,13 @@
     setAddress(event, window.pin.MAP_PIN_WIDTH, window.pin.MAP_PIN_HEIGHT);
   }
 
-  function submitHandler() {
-    alert('Форма отправлена');
+  function submitSuccessHandler() {
+    FORM.reset();
   }
 
   function onSubmit(event) {
     event.preventDefault();
-    window.backend.save(new FormData(FORM), submitHandler, window.backend.errorHandler);
+    window.backend.save(new FormData(FORM), submitSuccessHandler, window.backend.errorHandler);
 
   }
 

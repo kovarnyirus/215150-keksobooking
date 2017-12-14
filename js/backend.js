@@ -20,13 +20,21 @@
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
 
-    xhr.timeout = 10000; // 10s
+    xhr.timeout = 1000; // 10s
 
     return xhr;
   };
 
   function errorHandler(errorMessage) {
-    alert(errorMessage);
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 10px; font-size: 15px; text-align: center; background-color: rgba(169, 145, 145, .5); border-radius: 5px; padding: 10px;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.top = 0;
+    node.style.fontSize = '15px';
+
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
   }
 
   window.backend = {
