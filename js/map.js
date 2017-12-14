@@ -20,6 +20,7 @@
     mapPins.addEventListener('keydown', window.pin.onMapPinsEnterPress);
     window.form.runForm(event);
     mapPinMain.addEventListener('mousedown', mapPinMainMove);
+    window.form.notice.addEventListener('submit', window.form.onSubmit);
   }
 
   function mapPinMainMove(event) {
