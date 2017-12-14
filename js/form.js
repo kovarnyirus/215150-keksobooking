@@ -86,14 +86,10 @@
     alert('Форма отправлена');
   }
 
-  function submitHandler2(evtee) {
-    console.log(evtee);
-  }
-
   function onSubmit(event) {
     event.preventDefault();
     window.backend.save(new FormData(FORM), submitHandler, window.backend.errorHandler);
-    window.backend.load(submitHandler2, window.backend.errorHandler);
+
   }
 
   window.form = {
