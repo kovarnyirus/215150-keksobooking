@@ -24,6 +24,7 @@
   }
 
   function renderMapPins(dataArray) {
+    window.data.adsData = dataArray;
     window.map.mapPins.appendChild(window.utils.fillFragmentWith(dataArray, createMapPin));
   }
 

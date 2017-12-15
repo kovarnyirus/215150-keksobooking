@@ -14,12 +14,13 @@
   function onMainPinClick(event) {
     map.classList.remove('map--faded');
     window.form.notice.querySelector('.notice__form').classList.remove('notice__form--disabled');
-    window.pin.renderMapPins(window.data.similarArray);
+    window.backend.load(window.pin.renderMapPins, window.backend.errorHandler);
     mapPinMain.removeEventListener('mouseup', onMainPinClick);
     mapPins.addEventListener('mouseup', window.card.onPopupOpen);
     mapPins.addEventListener('keydown', window.pin.onMapPinsEnterPress);
     window.form.runForm(event);
     mapPinMain.addEventListener('mousedown', mapPinMainMove);
+    window.form.notice.addEventListener('submit', window.form.onSubmit);
   }
 
   function mapPinMainMove(event) {

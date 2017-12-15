@@ -25,6 +25,7 @@
   var MIN_PRICE = 1000;
   var MAX_PRICE = 1000000;
   var PIN_COUNT = 8;
+  var adsData;
   var similarArray = createAdsArray(PIN_COUNT);
 
   function createAdsArray(lengthArray) {
@@ -64,7 +65,7 @@
   }
 
   window.data = {
-    similarArray: similarArray,
+    adsData: adsData,
     MIN_Y: MIN_Y,
     MAX_Y: MAX_Y
   };

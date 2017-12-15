@@ -13,6 +13,7 @@
   var TIME_LIST = ['12:00', '13:00', '14:00'];
   var ROOMS_NUMBERS = ['1', '2', '3', '100'];
   var GUESTS_NUMBERS = ['1', '2', '3', '0'];
+  var FORM = document.querySelector('.notice__form');
 
   function disableForm() {
     var elements = notice.querySelectorAll('fieldset');
@@ -81,11 +82,22 @@
     setAddress(event, window.pin.MAP_PIN_WIDTH, window.pin.MAP_PIN_HEIGHT);
   }
 
+  function submitSuccessHandler() {
+    FORM.reset();
+  }
+
+  function onSubmit(event) {
+    event.preventDefault();
+    window.backend.save(new FormData(FORM), submitSuccessHandler, window.backend.errorHandler);
+
+  }
+
   window.form = {
     runForm: runForm,
     notice: notice,
     setAddress: setAddress,
-    disableForm: disableForm
+    disableForm: disableForm,
+    onSubmit: onSubmit
   };
 
 })();
