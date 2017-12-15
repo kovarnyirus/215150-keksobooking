@@ -16,6 +16,7 @@
     mapTextElements[2].textContent = card.offer.rooms + ' для ' + card.offer.guests + (card.offer.guests === 1 ? ' гостя' : ' гостей');
     mapTextElements[3].textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
     mapCardElement.querySelector('h4').textContent = card.offer.type;
+    mapCardElement.querySelector('.popup__pictures').style.display = 'none';
     renderFeatures(card.offer.features);
     mapTextElements[4].textContent = card.offer.description;
     mapCardElement.querySelector('.popup__avatar').setAttribute('src', card.author.avatar);
