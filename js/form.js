@@ -58,7 +58,7 @@
 
   function syncFieldRooms(element, value) {
     window.utils.setFieldValue(element, value);
-    window.utils.disableOptions(fieldsCapacity);
+    window.utils.disableElements(fieldsCapacity);
     if (value === '0') {
       enableCapacityField(fieldsCapacity, false);
     } else {
@@ -77,7 +77,7 @@
     selectTimeOut.addEventListener('change', onSelectTimeOut);
     selectRoomNumber.addEventListener('change', onSelectRoomNumber);
     window.utils.setFieldValue(selectCapacity, 1);
-    window.utils.disableOptions(fieldsCapacity);
+    window.utils.disableElements(fieldsCapacity);
     enableCapacityField(fieldsCapacity, 1);
     setAddress(event, window.pin.MAP_PIN_WIDTH, window.pin.MAP_PIN_HEIGHT);
   }

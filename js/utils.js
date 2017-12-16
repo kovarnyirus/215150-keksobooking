@@ -19,20 +19,14 @@
   }
 
   function getTargetElement(event, className) {
-    if (window.utils.hasClass(event.target.parentElement, className)) {
+    if (hasClass(event.target.parentElement, className)) {
       return event.target.parentElement;
     }
-    return window.utils.hasClass(event.target, className) ? event.target : false;
+    return hasClass(event.target, className) ? event.target : false;
   }
 
   function setFieldValue(element, value) {
     element.value = value;
-  }
-
-  function disableOptions(elements) {
-    elements.forEach(function (item, i) {
-      elements[i].setAttribute('disabled', 'disabled');
-    });
   }
 
   function enableElements(parentItem, childItems) {
@@ -69,7 +63,7 @@
   }
 
   function getRandomArrayItems(array, items) {
-    return cloneArray(array).sort(compareRandom).slice(0, items + 1);
+    return cloneArray(array).sort(compareRandom).slice(0, ++items );
   }
 
   function fillFragmentWith(dataArray, cb) {
@@ -86,7 +80,6 @@
     hasClass: hasClass,
     getTargetElement: getTargetElement,
     setFieldValue: setFieldValue,
-    disableOptions: disableOptions,
     enableElements: enableElements,
     disableElements: disableElements,
     isEnterKeyPress: isEnterKeyPress,

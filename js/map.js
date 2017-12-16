@@ -10,10 +10,11 @@
   var mapPins = document.querySelector('.map__pins');
   var mapPinMain = map.querySelector('.map__pin--main');
   var mainPinLastCoords;
+  var enableForm = window.form.notice.querySelector('.notice__form').classList.remove('notice__form--disabled');
 
   function onMainPinClick(event) {
     map.classList.remove('map--faded');
-    window.form.notice.querySelector('.notice__form').classList.remove('notice__form--disabled');
+    enableForm
     window.backend.load(window.pin.renderMapPins, window.backend.errorHandler);
     mapPinMain.removeEventListener('mouseup', onMainPinClick);
     mapPins.addEventListener('mouseup', window.card.onPopupOpen);
