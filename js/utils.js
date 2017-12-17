@@ -77,23 +77,13 @@
     return cloneArray(array).sort(compareRandom).slice(0, ++items);
   }
 
-  // не пойму почему ошибка пр  использовании for, с forEach работает хорошо но не могу гограничить вывод винов 5
-
   function fillFragmentWith(dataArray, cb) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i <= COUNT_PINS; i++) {
-      fragment.appendChild(cb(dataArray[i], i));
-    }
+    dataArray.forEach(function (item, i) {
+      fragment.appendChild(cb(item, i));
+    });
     return fragment;
   }
-
-  // function fillFragmentWith(dataArray, cb) {
-  //   var fragment = document.createDocumentFragment();
-  //   dataArray.forEach(function (item, i) {
-  //     fragment.appendChild(cb(item, i));
-  //   });
-  //   return fragment;
-  // }
 
   window.utils = {
     removeClass: removeClass,

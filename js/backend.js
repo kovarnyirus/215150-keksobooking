@@ -39,8 +39,8 @@
 
   function successLoad(dataArray) {
     window.data.sourceAdsData = dataArray;
-    window.data.cloneAdsData = dataArray;
-    window.pin.renderMapPins(dataArray);
+    window.data.cloneAdsData = dataArray.slice(window.pin.MIN_PIN_COUNT, window.map.MAX_PIN_COUN);
+    window.pin.renderMapPins(window.data.cloneAdsData);
   }
 
   window.backend = {

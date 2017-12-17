@@ -6,11 +6,14 @@
   var MAX_X = 1150;
   var MIN_Y = 124;
   var MAX_Y = 650;
+  var MIN_PIN_COUNT = 0;
+  var MAX_PIN_COUN = 5;
   var map = document.querySelector('.map');
   var mapPins = document.querySelector('.map__pins');
   var mapPinMain = map.querySelector('.map__pin--main');
   var mainPinLastCoords;
   var mapFilters = map.querySelector('.map__filters');
+  var checkedFeatures;
 
   function onMainPinClick(event) {
     map.classList.remove('map--faded');
@@ -68,29 +71,26 @@
     document.removeEventListener('mouseup', onMouseUp);
   }
 
-  function comparisonElements(element, value) {
-    if (value === 'any' || element === value) {
-      return true;
-    }
-    return false;
+  function compareElements(element, value) {
+    return value === 'any' || element === value;
   }
 
   function filterType(item) {
     var selectFilterType = mapFilters.querySelector('#housing-type').value;
     var elementValue = item.offer.type;
-    return comparisonElements(elementValue, selectFilterType);
+    return compareElements(elementValue, selectFilterType);
   }
 
   function filterRoomNum(item) {
     var selectFilterRoomNum = mapFilters.querySelector('#housing-rooms').value;
     var elementValue = item.offer.rooms;
-    return comparisonElements(elementValue.toString(), selectFilterRoomNum);
+    return compareElements(elementValue.toString(), selectFilterRoomNum);
   }
 
   function filterGuestNum(item) {
     var selectFilterGuestNum = mapFilters.querySelector('#housing-guests').value;
     var elementValue = item.offer.guests;
-    return comparisonElements(elementValue.toString(), selectFilterGuestNum);
+    return compareElements(elementValue.toString(), selectFilterGuestNum);
   }
 
   function filterPrice(item) {
@@ -101,17 +101,13 @@
       return true;
     } else if (elementValue < 10000) {
       elementValue = 'low';
-    } else if (elementValue > 10000 && elementValue < 50000) {
+    } else if (elementValue >= 10000 && elementValue < 50000) {
       elementValue = 'middle';
     } else {
       elementValue = 'high';
     }
 
-    if (elementValue === selectFilterPrice) {
-      return true;
-    } else {
-      return false;
-    }
+    return elementValue === selectFilterPrice;
   }
 
   function filterFeatures(item) {
@@ -122,7 +118,7 @@
       array.push(inputFeatures[i]);
     }
 
-    var checkedFeatures = array.filter(function (element) {
+    checkedFeatures = array.filter(function (element) {
       if (element.checked) {
         return true;
       }
@@ -138,15 +134,14 @@
   }
 
   function onFiltersClick() {
+    var shortFilterArr;
     var filterArr = window.data.sourceAdsData.filter(function (item) {
-      if (filterType(item) && filterRoomNum(item) && filterGuestNum(item) && filterPrice(item) && filterFeatures(item)) {
-        return true;
-      }
-      return false;
+      return filterType(item) && filterRoomNum(item) && filterGuestNum(item) && filterPrice(item) && filterFeatures(item);
     });
-    window.data.cloneAdsData = filterArr;
+    shortFilterArr = filterArr.slice(MIN_PIN_COUNT, MAX_PIN_COUN);
+    window.data.cloneAdsData = shortFilterArr;
     window.pin.removePins();
-    window.utils.debounce(window.pin.renderMapPins(filterArr));
+    window.utils.debounce(window.pin.renderMapPins(shortFilterArr));
 
   }
 
@@ -156,7 +151,9 @@
     onMainPinClick: onMainPinClick,
     map: map,
     mapPins: mapPins,
-    mapPinMainMove: mapPinMainMove
+    mapPinMainMove: mapPinMainMove,
+    MIN_PIN_COUNT: MIN_PIN_COUNT,
+    MAX_PIN_COUN: MAX_PIN_COUN
   };
 
 })();
