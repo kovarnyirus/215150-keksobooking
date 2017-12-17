@@ -4,10 +4,12 @@
 
   var MIN_Y = 197;
   var MAX_Y = 500;
-  var adsData;
+  var sourceAdsData;
+  var cloneAdsData;
 
   window.data = {
-    adsData: adsData,
+    sourceAdsData: sourceAdsData,
+    cloneAdsData: cloneAdsData,
     MIN_Y: MIN_Y,
     MAX_Y: MAX_Y
   };

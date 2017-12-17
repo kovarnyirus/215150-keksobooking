@@ -2,6 +2,9 @@
 (function () {
   var ENTER_KEYCODE = 13;
   var ESC_KEYCODE = 27;
+  var COUNT_PINS = 5;
+  var DEBOUNCE_INTERVAL = 300;
+  var lastTimeout;
 
   function removeClass(element, className) {
     element.classList.remove(className);
@@ -54,6 +57,14 @@
     return array.concat();
   }
 
+  function debounce(fun) {
+
+    if (lastTimeout) {
+      window.clearTimeout(lastTimeout);
+    }
+    lastTimeout = window.setTimeout(fun, DEBOUNCE_INTERVAL);
+  }
+
   function compareRandom() {
     return Math.random() - 0.5;
   }
@@ -63,16 +74,26 @@
   }
 
   function getRandomArrayItems(array, items) {
-    return cloneArray(array).sort(compareRandom).slice(0, ++items );
+    return cloneArray(array).sort(compareRandom).slice(0, ++items);
   }
+
+  // не пойму почему ошибка пр  использовании for, с forEach работает хорошо но не могу гограничить вывод винов 5
 
   function fillFragmentWith(dataArray, cb) {
     var fragment = document.createDocumentFragment();
-    dataArray.forEach(function (item, i) {
-      fragment.appendChild(cb(item, i));
-    });
+    for (var i = 0; i <= COUNT_PINS; i++) {
+      fragment.appendChild(cb(dataArray[i], i));
+    }
     return fragment;
   }
+
+  // function fillFragmentWith(dataArray, cb) {
+  //   var fragment = document.createDocumentFragment();
+  //   dataArray.forEach(function (item, i) {
+  //     fragment.appendChild(cb(item, i));
+  //   });
+  //   return fragment;
+  // }
 
   window.utils = {
     removeClass: removeClass,
@@ -88,6 +109,7 @@
     compareRandom: compareRandom,
     getRandomBetween: getRandomBetween,
     getRandomArrayItems: getRandomArrayItems,
-    fillFragmentWith: fillFragmentWith
+    fillFragmentWith: fillFragmentWith,
+    debounce: debounce
   };
 })();
