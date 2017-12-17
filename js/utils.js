@@ -3,7 +3,7 @@
   var ENTER_KEYCODE = 13;
   var ESC_KEYCODE = 27;
   var COUNT_PINS = 5;
-  var DEBOUNCE_INTERVAL = 300;
+  var DEBOUNCE_INTERVAL = 500;
   var lastTimeout;
 
   function removeClass(element, className) {
