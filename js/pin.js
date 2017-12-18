@@ -4,7 +4,6 @@
   var MAP_PIN_HEIGHT = 62;
   var mapPin = window.card.mapCardTemplate.querySelector('.map__pin');
 
-
   function createMapPin(element, index) {
     var mapPinChild = mapPin.cloneNode(true);
     var mapPinChildImg = mapPinChild.querySelector('img');
@@ -23,8 +22,13 @@
     }
   }
 
+  function removePins() {
+    while (window.map.mapPins.children[2]) {
+      window.map.mapPins.removeChild(window.map.mapPins.children[2]);
+    }
+  }
+
   function renderMapPins(dataArray) {
-    window.data.adsData = dataArray;
     window.map.mapPins.appendChild(window.utils.fillFragmentWith(dataArray, createMapPin));
   }
 
@@ -32,6 +36,7 @@
     MAP_PIN_WIDTH: MAP_PIN_WIDTH,
     MAP_PIN_HEIGHT: MAP_PIN_HEIGHT,
     renderMapPins: renderMapPins,
-    onMapPinsEnterPress: onMapPinsEnterPress
+    onMapPinsEnterPress: onMapPinsEnterPress,
+    removePins: removePins
   };
 })();

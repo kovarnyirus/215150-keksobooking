@@ -2,6 +2,8 @@
 (function () {
   var ENTER_KEYCODE = 13;
   var ESC_KEYCODE = 27;
+  var DEBOUNCE_INTERVAL = 500;
+
 
   function removeClass(element, className) {
     element.classList.remove(className);
@@ -19,20 +21,14 @@
   }
 
   function getTargetElement(event, className) {
-    if (window.utils.hasClass(event.target.parentElement, className)) {
+    if (hasClass(event.target.parentElement, className)) {
       return event.target.parentElement;
     }
-    return window.utils.hasClass(event.target, className) ? event.target : false;
+    return hasClass(event.target, className) ? event.target : false;
   }
 
   function setFieldValue(element, value) {
     element.value = value;
-  }
-
-  function disableOptions(elements) {
-    elements.forEach(function (item, i) {
-      elements[i].setAttribute('disabled', 'disabled');
-    });
   }
 
   function enableElements(parentItem, childItems) {
@@ -60,6 +56,41 @@
     return array.concat();
   }
 
+  function debounce(fun, DEBOUNCE_INTERVAL) {
+    var timer;
+    return function () {
+      var context = this;
+      var arg = arguments;
+      function callable() {
+        fun.apply(context, arg);
+      }
+      if (timer){
+        clearInterval(timer);
+        timer = null;
+      }
+      timer = setTimeout(callable, DEBOUNCE_INTERVAL);
+    };
+  };
+
+
+  // function debouncer() {
+  //   var callable;
+  //   var timer;
+  //   var args;
+  //   var context = this;
+  //   return function (fanc, INTERVAL) {
+  //     callable = function() {
+  //       args = arguments;
+  //       clearInterval(timer);
+  //       timer = null;
+  //       fanc.apply(context, args);
+  //     };
+  //     if (!timer) {
+  //       timer = setTimeout(callable, INTERVAL);
+  //     }
+  //   }
+  // }
+
   function compareRandom() {
     return Math.random() - 0.5;
   }
@@ -69,7 +100,7 @@
   }
 
   function getRandomArrayItems(array, items) {
-    return cloneArray(array).sort(compareRandom).slice(0, items + 1);
+    return cloneArray(array).sort(compareRandom).slice(0, ++items);
   }
 
   function fillFragmentWith(dataArray, cb) {
@@ -86,7 +117,6 @@
     hasClass: hasClass,
     getTargetElement: getTargetElement,
     setFieldValue: setFieldValue,
-    disableOptions: disableOptions,
     enableElements: enableElements,
     disableElements: disableElements,
     isEnterKeyPress: isEnterKeyPress,
@@ -95,6 +125,8 @@
     compareRandom: compareRandom,
     getRandomBetween: getRandomBetween,
     getRandomArrayItems: getRandomArrayItems,
-    fillFragmentWith: fillFragmentWith
+    fillFragmentWith: fillFragmentWith,
+    debounce: debounce,
+    DEBOUNCE_INTERVAL: DEBOUNCE_INTERVAL
   };
 })();
