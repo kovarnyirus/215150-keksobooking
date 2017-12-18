@@ -14,6 +14,7 @@
   var mainPinLastCoords;
   var mapFilters = map.querySelector('.map__filters');
   var checkedFeatures;
+  var debouncer = window.utils.debounce(window.pin.renderMapPins, window.utils.DEBOUNCE_INTERVAL)
 
   function onMainPinClick(event) {
     map.classList.remove('map--faded');
@@ -141,7 +142,7 @@
     shortFilterArr = filterArr.slice(MIN_PIN_COUNT, MAX_PIN_COUN);
     window.data.cloneAdsData = shortFilterArr;
     window.pin.removePins();
-    window.utils.debounce(window.pin.renderMapPins(shortFilterArr));
+    debouncer(shortFilterArr);
 
   }
 

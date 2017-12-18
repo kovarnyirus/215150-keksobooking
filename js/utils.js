@@ -2,9 +2,8 @@
 (function () {
   var ENTER_KEYCODE = 13;
   var ESC_KEYCODE = 27;
-  var COUNT_PINS = 5;
   var DEBOUNCE_INTERVAL = 500;
-  var lastTimeout;
+
 
   function removeClass(element, className) {
     element.classList.remove(className);
@@ -57,13 +56,40 @@
     return array.concat();
   }
 
-  function debounce(fun) {
+  function debounce(fun, DEBOUNCE_INTERVAL) {
+    var timer;
+    return function () {
+      var context = this;
+      var arg = arguments;
+      function callable() {
+        fun.apply(context, arg);
+      }
+      if (timer){
+        clearInterval(timer);
+        timer = null;
+      }
+      timer = setTimeout(callable, DEBOUNCE_INTERVAL);
+    };
+  };
 
-    if (lastTimeout) {
-      window.clearTimeout(lastTimeout);
-    }
-    lastTimeout = window.setTimeout(fun, DEBOUNCE_INTERVAL);
-  }
+
+  // function debouncer() {
+  //   var callable;
+  //   var timer;
+  //   var args;
+  //   var context = this;
+  //   return function (fanc, INTERVAL) {
+  //     callable = function() {
+  //       args = arguments;
+  //       clearInterval(timer);
+  //       timer = null;
+  //       fanc.apply(context, args);
+  //     };
+  //     if (!timer) {
+  //       timer = setTimeout(callable, INTERVAL);
+  //     }
+  //   }
+  // }
 
   function compareRandom() {
     return Math.random() - 0.5;
@@ -100,6 +126,7 @@
     getRandomBetween: getRandomBetween,
     getRandomArrayItems: getRandomArrayItems,
     fillFragmentWith: fillFragmentWith,
-    debounce: debounce
+    debounce: debounce,
+    DEBOUNCE_INTERVAL: DEBOUNCE_INTERVAL
   };
 })();
