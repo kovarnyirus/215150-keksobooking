@@ -14,7 +14,8 @@
   var mainPinLastCoords;
   var mapFilters = map.querySelector('.map__filters');
   var checkedFeatures;
-  var debouncer = window.utils.debounce(window.pin.renderMapPins, window.utils.DEBOUNCE_INTERVAL)
+  var debouncer = window.utils.debounce(window.pin.renderMapPins, window.utils.DEBOUNCE_INTERVAL);
+  var inputFeatures = mapFilters.querySelector('#housing-features').querySelectorAll('input');
 
   function onMainPinClick(event) {
     map.classList.remove('map--faded');
@@ -112,7 +113,6 @@
   }
 
   function filterFeatures(item) {
-    var inputFeatures = mapFilters.querySelector('#housing-features').querySelectorAll('input');
     var array = [];
     var elementFeature = item.offer.features;
     for (var i = 0; i < inputFeatures.length; i++) {
@@ -134,11 +134,13 @@
     return true;
   }
 
+  function filterFields(item) {
+    return filterType(item) && filterRoomNum(item) && filterGuestNum(item) && filterPrice(item) && filterFeatures(item);
+  }
+
   function onFiltersClick() {
     var shortFilterArr;
-    var filterArr = window.data.sourceAdsData.filter(function (item) {
-      return filterType(item) && filterRoomNum(item) && filterGuestNum(item) && filterPrice(item) && filterFeatures(item);
-    });
+    var filterArr = window.data.sourceAdsData.filter(filterFields);
     shortFilterArr = filterArr.slice(MIN_PIN_COUNT, MAX_PIN_COUN);
     window.data.cloneAdsData = shortFilterArr;
     window.pin.removePins();

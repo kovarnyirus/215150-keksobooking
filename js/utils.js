@@ -70,26 +70,7 @@
       }
       timer = setTimeout(callable, DEBOUNCE_INTERVAL);
     };
-  };
-
-
-  // function debouncer() {
-  //   var callable;
-  //   var timer;
-  //   var args;
-  //   var context = this;
-  //   return function (fanc, INTERVAL) {
-  //     callable = function() {
-  //       args = arguments;
-  //       clearInterval(timer);
-  //       timer = null;
-  //       fanc.apply(context, args);
-  //     };
-  //     if (!timer) {
-  //       timer = setTimeout(callable, INTERVAL);
-  //     }
-  //   }
-  // }
+  }
 
   function compareRandom() {
     return Math.random() - 0.5;
@@ -100,7 +81,7 @@
   }
 
   function getRandomArrayItems(array, items) {
-    return cloneArray(array).sort(compareRandom).slice(0, ++items);
+    return cloneArray(array).sort(compareRandom).slice(0, items);
   }
 
   function fillFragmentWith(dataArray, cb) {
