@@ -1,5 +1,12 @@
 'use strict';
 (function () {
+  var ROOMS_PRICE_MIN = ['0', '1000', '5000', '10000'];
+  var ROOM_TYPES_LIST = ['bungalo', 'flat', 'house', 'palace'];
+  var TIMES_LIST = ['12:00', '13:00', '14:00'];
+  var ROOMS_NUMBERS = ['1', '2', '3', '100'];
+  var GUESTS_NUMBERS = ['1', '2', '3', '0'];
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+  var FORM = document.querySelector('.notice__form');
   var notice = document.querySelector('.notice');
   var typeInput = notice.querySelector('#type');
   var selectTimeIn = notice.querySelector('#timein');
@@ -8,17 +15,17 @@
   var selectCapacity = notice.querySelector('#capacity');
   var fieldsCapacity = selectCapacity.querySelectorAll('option');
   var priceInput = notice.querySelector('#price');
-  var ROOMS_PRICE_MIN = ['0', '1000', '5000', '10000'];
-  var ROOM_TYPES_LIST = ['bungalo', 'flat', 'house', 'palace'];
-  var TIMES_LIST = ['12:00', '13:00', '14:00'];
-  var ROOMS_NUMBERS = ['1', '2', '3', '100'];
-  var GUESTS_NUMBERS = ['1', '2', '3', '0'];
-  var FORM = document.querySelector('.notice__form');
+  var avatarChooser = FORM.querySelector('#avatar');
+  var photoContainer = FORM.querySelector('.form__photo-container');
+  var imageChooser = FORM.querySelector('#images');
+  var avatarPreview = FORM.querySelector('.notice__preview').querySelector('img');
 
   function disableForm() {
     var elements = notice.querySelectorAll('fieldset');
     window.map.mapPinMain.addEventListener('mouseup', window.map.onMainPinClick);
     window.utils.disableElements(elements);
+    avatarChooser.addEventListener('change', onAvatar);
+    imageChooser.addEventListener('change', onPhotosHouse);
   }
 
   function enableCapacityField(numberGuests, roomNum) {
@@ -92,12 +99,50 @@
 
   }
 
+  function onAvatar(event) {
+    var file = event.srcElement.files[0];
+    var fileName = file.name.toLowerCase();
+    var matches = FILE_TYPES.some(function (item) {
+      return fileName.endsWith(item);
+    });
+    if (matches) {
+      var reader = new FileReader();
+      reader.addEventListener('load', function () {
+        avatarPreview.src = reader.result;
+      });
+      reader.readAsDataURL(file);
+    }
+  }
+
+  function onPhotosHouse(event) {
+    var file = event.srcElement.files[0];
+    var fileName = file.name.toLowerCase();
+    var matches = FILE_TYPES.some(function (item) {
+      return fileName.endsWith(item);
+    });
+    if (matches) {
+      var reader = new FileReader();
+      reader.addEventListener('load', function () {
+        var newImg = document.createElement('img');
+        newImg.setAttribute('style', 'width: 100px; height: 100px; padding: 5px;');
+        newImg.setAttribute('src', reader.result);
+        photoContainer.appendChild(newImg);
+      });
+      reader.readAsDataURL(file);
+    }
+  }
+
+
   window.form = {
     runForm: runForm,
     notice: notice,
     setAddress: setAddress,
     disableForm: disableForm,
-    onSubmit: onSubmit
+    onSubmit: onSubmit,
+    onAvatar: onAvatar,
+    onPhotosHouse: onPhotosHouse,
+    imageChooser: imageChooser,
+    avatarChooser: avatarChooser
   };
 
 })();

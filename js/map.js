@@ -28,6 +28,8 @@
     window.form.runForm(event);
     mapPinMain.addEventListener('mousedown', mapPinMainMove);
     window.form.notice.addEventListener('submit', window.form.onSubmit);
+    window.form.avatarChooser.addEventListener('change', window.form.onAvatar);
+    window.form.imageChooser.addEventListener('change', window.form.onPhotosHouse);
   }
 
   function mapPinMainMove(event) {
