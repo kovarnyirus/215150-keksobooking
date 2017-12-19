@@ -56,19 +56,21 @@
     return array.concat();
   }
 
-  function debounce(fun, DEBOUNCE_INTERVAL) {
+
+  function debounce(fun, interval) {
     var timer;
     return function () {
-      var context = this;
       var arg = arguments;
+
       function callable() {
-        fun.apply(context, arg);
-      }
-      if (timer){
         clearInterval(timer);
         timer = null;
+        fun.apply(null, arg);
       }
-      timer = setTimeout(callable, DEBOUNCE_INTERVAL);
+
+      if (!timer) {
+        timer = setTimeout(callable, interval);
+      }
     };
   }
 
