@@ -33,22 +33,15 @@
 
   function enableElements(parentItem, childItems) {
     var elements = parentItem.querySelectorAll(childItems);
-    for (var i = 0; i < elements.length; i++) {
-      elements[i].removeAttribute('disabled');
-    }
-    // elements.forEach(function (item) {
-    //   item.removeAttribute('disabled');
-    // });
+    [].forEach.call(elements, function (item) {
+      item.removeAttribute('disabled');
+    });
   }
 
   function disableElements(elements) {
-    // console.log(typeof elements);
-    for (var i = 0; i < elements.length; i++) {
-      elements[i].setAttribute('disabled', 'disabled');
-    }
-    // elements.map(function (item) {
-    //   item.setAttribute('disabled', 'disabled');
-    // });
+    [].forEach.call(elements, function (item) {
+      item.setAttribute('disabled', 'disabled');
+    });
   }
 
   function isEscKeyPress(event) {
@@ -79,6 +72,15 @@
       }
     };
   }
+
+  // if (!NodeList.prototype.forEach) {
+  //   Object.defineProperty(NodeList.prototype, "forEach", {
+  //     value: Array.prototype.forEach,
+  //     enumerable: true, // This surprised me, but it's how it's defined on both
+  //     configurable: true,
+  //     writable: true
+  //   });
+  // }
 
   function compareRandom() {
     return Math.random() - 0.5;
