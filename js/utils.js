@@ -33,13 +33,13 @@
 
   function enableElements(parentItem, childItems) {
     var elements = parentItem.querySelectorAll(childItems);
-    elements.forEach(function (item) {
+    [].forEach.call(elements, function (item) {
       item.removeAttribute('disabled');
     });
   }
 
   function disableElements(elements) {
-    elements.forEach(function (item) {
+    [].forEach.call(elements, function (item) {
       item.setAttribute('disabled', 'disabled');
     });
   }
@@ -56,40 +56,22 @@
     return array.concat();
   }
 
-  function debounce(fun, DEBOUNCE_INTERVAL) {
+  function debounce(fun, interval) {
     var timer;
     return function () {
-      var context = this;
       var arg = arguments;
+
       function callable() {
-        fun.apply(context, arg);
-      }
-      if (timer){
         clearInterval(timer);
         timer = null;
+        fun.apply(null, arg);
       }
-      timer = setTimeout(callable, DEBOUNCE_INTERVAL);
+
+      if (!timer) {
+        timer = setTimeout(callable, interval);
+      }
     };
-  };
-
-
-  // function debouncer() {
-  //   var callable;
-  //   var timer;
-  //   var args;
-  //   var context = this;
-  //   return function (fanc, INTERVAL) {
-  //     callable = function() {
-  //       args = arguments;
-  //       clearInterval(timer);
-  //       timer = null;
-  //       fanc.apply(context, args);
-  //     };
-  //     if (!timer) {
-  //       timer = setTimeout(callable, INTERVAL);
-  //     }
-  //   }
-  // }
+  }
 
   function compareRandom() {
     return Math.random() - 0.5;
@@ -100,7 +82,7 @@
   }
 
   function getRandomArrayItems(array, items) {
-    return cloneArray(array).sort(compareRandom).slice(0, ++items);
+    return cloneArray(array).sort(compareRandom).slice(0, items);
   }
 
   function fillFragmentWith(dataArray, cb) {
