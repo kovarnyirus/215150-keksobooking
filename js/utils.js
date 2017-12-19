@@ -33,15 +33,22 @@
 
   function enableElements(parentItem, childItems) {
     var elements = parentItem.querySelectorAll(childItems);
-    elements.forEach(function (item) {
-      item.removeAttribute('disabled');
-    });
+    for (var i = 0; i < elements.length; i++) {
+      elements[i].removeAttribute('disabled');
+    }
+    // elements.forEach(function (item) {
+    //   item.removeAttribute('disabled');
+    // });
   }
 
   function disableElements(elements) {
-    elements.forEach(function (item) {
-      item.setAttribute('disabled', 'disabled');
-    });
+    // console.log(typeof elements);
+    for (var i = 0; i < elements.length; i++) {
+      elements[i].setAttribute('disabled', 'disabled');
+    }
+    // elements.map(function (item) {
+    //   item.setAttribute('disabled', 'disabled');
+    // });
   }
 
   function isEscKeyPress(event) {
@@ -55,7 +62,6 @@
   function cloneArray(array) {
     return array.concat();
   }
-
 
   function debounce(fun, interval) {
     var timer;

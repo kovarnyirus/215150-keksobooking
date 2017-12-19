@@ -9,8 +9,8 @@
   var fieldsCapacity = selectCapacity.querySelectorAll('option');
   var priceInput = notice.querySelector('#price');
   var ROOMS_PRICE_MIN = ['0', '1000', '5000', '10000'];
-  var ROOM_TYPE_LIST = ['bungalo', 'flat', 'house', 'palace'];
-  var TIME_LIST = ['12:00', '13:00', '14:00'];
+  var ROOM_TYPES_LIST = ['bungalo', 'flat', 'house', 'palace'];
+  var TIMES_LIST = ['12:00', '13:00', '14:00'];
   var ROOMS_NUMBERS = ['1', '2', '3', '100'];
   var GUESTS_NUMBERS = ['1', '2', '3', '0'];
   var FORM = document.querySelector('.notice__form');
@@ -38,15 +38,15 @@
   }
 
   function selectTypeInput() {
-    window.synchronizeFields(typeInput, priceInput, ROOM_TYPE_LIST, ROOMS_PRICE_MIN, syncPriceFields);
+    window.synchronizeFields(typeInput, priceInput, ROOM_TYPES_LIST, ROOMS_PRICE_MIN, syncPriceFields);
   }
 
   function onSelectTimeIn() {
-    window.synchronizeFields(selectTimeIn, selectTimeOut, TIME_LIST, TIME_LIST, window.utils.setFieldValue);
+    window.synchronizeFields(selectTimeIn, selectTimeOut, TIMES_LIST, TIMES_LIST, window.utils.setFieldValue);
   }
 
   function onSelectTimeOut() {
-    window.synchronizeFields(selectTimeOut, selectTimeIn, TIME_LIST, TIME_LIST, window.utils.setFieldValue);
+    window.synchronizeFields(selectTimeOut, selectTimeIn, TIMES_LIST, TIMES_LIST, window.utils.setFieldValue);
   }
 
   function setAddress(event, elementWidth, elementHeight) {
@@ -82,13 +82,13 @@
     setAddress(event, window.pin.MAP_PIN_WIDTH, window.pin.MAP_PIN_HEIGHT);
   }
 
-  function submitSuccessHandler() {
+  function onSubmitSuccess() {
     FORM.reset();
   }
 
   function onSubmit(event) {
     event.preventDefault();
-    window.backend.save(new FormData(FORM), submitSuccessHandler, window.backend.errorHandler);
+    window.backend.save(new FormData(FORM), onSubmitSuccess, window.backend.onError);
 
   }
 

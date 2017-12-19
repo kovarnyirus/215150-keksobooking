@@ -2,7 +2,7 @@
 (function () {
   var popupClose;
   var mapPinActive;
-  var beforeElement = document.querySelector('.map__filters-container');
+  var beforeItem = document.querySelector('.map__filters-container');
   var mapCardTemplate = document.querySelector('template').content;
   var mapCardElement = mapCardTemplate.querySelector('.map__card').cloneNode(true);
 
@@ -20,7 +20,7 @@
     renderFeatures(card.offer.features);
     mapTextElements[4].textContent = card.offer.description;
     mapCardElement.querySelector('.popup__avatar').setAttribute('src', card.author.avatar);
-    window.map.map.insertBefore(mapCardElement, beforeElement);
+    window.map.map.insertBefore(mapCardElement, beforeItem);
   }
 
   function onPopupCloseEnterPress(evt) {
