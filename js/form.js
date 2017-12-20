@@ -123,13 +123,28 @@
     if (matches) {
       var reader = new FileReader();
       reader.addEventListener('load', function () {
-        var newImg = document.createElement('img');
-        newImg.setAttribute('style', 'width: 100px; height: 100px; padding: 5px;');
-        newImg.setAttribute('src', reader.result);
-        photoContainer.appendChild(newImg);
+        var photoWrapper = FORM.querySelector('.house-photo-wrapper');
+        if (!photoWrapper) {
+          var housePhotoWrapper = document.createElement('div');
+          housePhotoWrapper.setAttribute('class', 'house-photo-wrapper');
+          housePhotoWrapper.setAttribute('style', 'display: flex; flex-direction: row;');
+          photoContainer.appendChild(housePhotoWrapper);
+          var conteiner = FORM.querySelector('.house-photo-wrapper');
+          addPreviewPhoto(reader, conteiner);
+        } else {
+          var conteiner = FORM.querySelector('.house-photo-wrapper');
+          addPreviewPhoto(reader, conteiner);
+        }
       });
       reader.readAsDataURL(file);
     }
+  }
+
+  function addPreviewPhoto(reader, parent) {
+    var newImg = document.createElement('img');
+    newImg.setAttribute('style', 'width: 100px; height: 100px; padding: 5px;');
+    newImg.setAttribute('src', reader.result);
+    parent.appendChild(newImg);
   }
 
 

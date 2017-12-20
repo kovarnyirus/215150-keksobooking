@@ -120,14 +120,12 @@
     for (var i = 0; i < inputFeatures.length; i++) {
       array.push(inputFeatures[i]);
     }
-
     checkedFeatures = array.filter(function (element) {
       if (element.checked) {
         return true;
       }
       return false;
     });
-
     for (var k = 0; k < checkedFeatures.length; k++) {
       if (elementFeature.indexOf(checkedFeatures[k].value) === -1) {
         return false;

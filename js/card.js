@@ -31,11 +31,11 @@
 
   function generateFeatures(features) {
     var cardListFragment = document.createDocumentFragment();
-    for (var i = 0; i < features.length; i++) {
+    features.forEach(function (item) {
       var newLiElement = document.createElement('li');
-      newLiElement.className = 'feature feature--' + features[i];
+      newLiElement.className = 'feature feature--' + item;
       cardListFragment.appendChild(newLiElement);
-    }
+    });
     return cardListFragment;
   }
 
