@@ -122,28 +122,29 @@
     });
     if (matches) {
       var reader = new FileReader();
-      reader.addEventListener('load', function () {
-        var photoWrapper = FORM.querySelector('.house-photo-wrapper');
-        if (!photoWrapper) {
-          var housePhotoWrapper = document.createElement('div');
-          housePhotoWrapper.setAttribute('class', 'house-photo-wrapper');
-          housePhotoWrapper.setAttribute('style', 'display: flex; flex-direction: row;');
-          photoContainer.appendChild(housePhotoWrapper);
-          var conteiner = FORM.querySelector('.house-photo-wrapper');
-          addPreviewPhoto(reader, conteiner);
-        } else {
-          var conteiner = FORM.querySelector('.house-photo-wrapper');
-          addPreviewPhoto(reader, conteiner);
-        }
-      });
+      reader.addEventListener('load', onRenderHousesPhoto);
       reader.readAsDataURL(file);
     }
   }
 
-  function addPreviewPhoto(reader, parent) {
+  function onRenderHousesPhoto(event) {
+    var readerResult = event.target.result;
+    var photoWrapper = FORM.querySelector('.house-photo-wrapper');
+    if (!photoWrapper) {
+      var housePhotoWrapper = document.createElement('div');
+      housePhotoWrapper.setAttribute('class', 'house-photo-wrapper');
+      housePhotoWrapper.setAttribute('style', 'display: flex; flex-direction: row;');
+      addPreviewPhoto(readerResult, housePhotoWrapper);
+      photoContainer.appendChild(housePhotoWrapper);
+    } else {
+      addPreviewPhoto(readerResult, photoWrapper);
+    }
+  }
+
+  function addPreviewPhoto(readerResult, parent) {
     var newImg = document.createElement('img');
     newImg.setAttribute('style', 'width: 100px; height: 100px; padding: 5px;');
-    newImg.setAttribute('src', reader.result);
+    newImg.setAttribute('src', readerResult);
     parent.appendChild(newImg);
   }
 
