@@ -52,7 +52,6 @@
     return event.keyCode === ENTER_KEYCODE;
   }
 
-
   function debounce(fun, interval) {
     var timer;
     return function () {

@@ -44,7 +44,7 @@
     window.synchronizeFields(selectRoomNumber, selectCapacity, ROOMS_NUMBERS, GUESTS_NUMBERS, syncFieldRooms);
   }
 
-  function selectTypeInput() {
+  function onSelectTypeInput() {
     window.synchronizeFields(typeInput, priceInput, ROOM_TYPES_LIST, ROOMS_PRICE_MIN, syncPriceFields);
   }
 
@@ -79,7 +79,7 @@
 
   function runForm(event) {
     window.utils.enableElements(notice, 'fieldset');
-    typeInput.addEventListener('change', selectTypeInput);
+    typeInput.addEventListener('change', onSelectTypeInput);
     selectTimeIn.addEventListener('change', onSelectTimeIn);
     selectTimeOut.addEventListener('change', onSelectTimeOut);
     selectRoomNumber.addEventListener('change', onSelectRoomNumber);
