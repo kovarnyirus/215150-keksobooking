@@ -156,7 +156,6 @@
     onMainPinClick: onMainPinClick,
     map: map,
     mapPins: mapPins,
-    mapPinMainMove: mapPinMainMove,
     MIN_PIN_COUNT: MIN_PIN_COUNT,
     MAX_PIN_COUN: MAX_PIN_COUN
   };

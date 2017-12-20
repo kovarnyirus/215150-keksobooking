@@ -52,9 +52,6 @@
     return event.keyCode === ENTER_KEYCODE;
   }
 
-  function cloneArray(array) {
-    return array.concat();
-  }
 
   function debounce(fun, interval) {
     var timer;
@@ -73,17 +70,6 @@
     };
   }
 
-  function compareRandom() {
-    return Math.random() - 0.5;
-  }
-
-  function getRandomBetween(minValue, maxValue) {
-    return Math.round(Math.random() * (maxValue - minValue) + minValue);
-  }
-
-  function getRandomArrayItems(array, items) {
-    return cloneArray(array).sort(compareRandom).slice(0, items);
-  }
 
   function fillFragmentWith(dataArray, cb) {
     var fragment = document.createDocumentFragment();
@@ -103,10 +89,6 @@
     disableElements: disableElements,
     isEnterKeyPress: isEnterKeyPress,
     isEscKeyPress: isEscKeyPress,
-    cloneArray: cloneArray,
-    compareRandom: compareRandom,
-    getRandomBetween: getRandomBetween,
-    getRandomArrayItems: getRandomArrayItems,
     fillFragmentWith: fillFragmentWith,
     debounce: debounce,
     DEBOUNCE_INTERVAL: DEBOUNCE_INTERVAL
