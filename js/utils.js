@@ -54,21 +54,19 @@
 
   function debounce(fun, interval) {
     var timer;
+
     return function () {
       var arg = arguments;
-
       function callable() {
         clearInterval(timer);
         timer = null;
         fun.apply(null, arg);
       }
-
       if (!timer) {
         timer = setTimeout(callable, interval);
       }
     };
   }
-
 
   function fillFragmentWith(dataArray, cb) {
     var fragment = document.createDocumentFragment();

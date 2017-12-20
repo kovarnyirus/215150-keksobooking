@@ -143,9 +143,11 @@
     var filterArr = window.data.sourceAdsData.filter(filterFields);
     shortFilterArr = filterArr.slice(MIN_PIN_COUNT, MAX_PIN_COUN);
     window.data.cloneAdsData = shortFilterArr;
+    window.card.onPopupClose();
     window.pin.removePins();
+    // window.pin.renderMapPins(shortFilterArr);
     debouncer(shortFilterArr);
-
+    console.log(shortFilterArr);
   }
 
 

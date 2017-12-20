@@ -41,10 +41,12 @@
 
   function onPopupClose() {
     var popup = window.map.map.querySelector('.popup');
-    popup.remove();
-    window.utils.removeClass(mapPinActive, 'map__pin--active');
-    window.map.map.removeEventListener('keydown', onPopupEscPress);
-    popupClose.removeEventListener('keydown', onPopupCloseEnterPress);
+    if (popup) {
+      popup.remove();
+      window.utils.removeClass(mapPinActive, 'map__pin--active');
+      window.map.map.removeEventListener('keydown', onPopupEscPress);
+      popupClose.removeEventListener('keydown', onPopupCloseEnterPress);
+    }
   }
 
   function onPopupEscPress(event) {
@@ -66,11 +68,11 @@
     if (window.utils.hasClass(mapPinTarget, 'map__pin--main')) {
       return;
     }
-
     if (mapPinTarget) {
       if (mapPinActive) {
         window.utils.removeClass(mapPinActive, 'map__pin--active');
       }
+      console.log(mapPinTarget.id);
       window.showCard(window.data.cloneAdsData[mapPinTarget.id]);
       window.utils.addClass(mapPinTarget, 'map__pin--active');
       mapPinActive = mapPinTarget;
@@ -85,6 +87,7 @@
   window.card = {
     mapCardTemplate: mapCardTemplate,
     onPopupOpen: onPopupOpen,
-    renderCard: renderCard
+    renderCard: renderCard,
+    onPopupClose: onPopupClose
   };
 })();
