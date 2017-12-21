@@ -43,7 +43,7 @@
     }, 5000);
   }
 
-  function onSuccessLoad(ads) {
+  function onLoadSuccess(ads) {
     window.data.sourceAdsData = ads;
     window.data.filteredAds = ads.slice(window.pin.MIN_PIN_COUNT, window.map.MAX_PIN_COUN);
     window.pin.renderMapPins(window.data.filteredAds);
@@ -60,7 +60,7 @@
       xhr.open('GET', SERVER_URL + '/data');
       xhr.send();
     },
-    onSuccessLoad: onSuccessLoad,
+    onLoadSuccess: onLoadSuccess,
     onLoadError: onLoadError
   };
 })();
