@@ -23,9 +23,11 @@
   }
 
   function removePins() {
-    while (window.map.mapPins.children[2]) {
-      window.map.mapPins.removeChild(window.map.mapPins.children[2]);
+    var container = window.map.mapPins.cloneNode(true);
+    while (container.children[2]) {
+      container.removeChild(container.children[2]);
     }
+    window.map.mapPins.parentNode.replaceChild(container, window.map.mapPins);
   }
 
   function renderMapPins(ads) {
