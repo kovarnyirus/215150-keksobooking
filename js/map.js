@@ -20,7 +20,7 @@
   function onMainPinClick(event) {
     map.classList.remove('map--faded');
     window.form.notice.querySelector('.notice__form').classList.remove('notice__form--disabled');
-    window.backend.load(window.backend.onSuccessLoad, window.backend.onErrorLoad);
+    window.backend.load(window.backend.onSuccessLoad, window.backend.onLoadError);
     mapPinMain.removeEventListener('mouseup', onMainPinClick);
     mapPins.addEventListener('mouseup', window.card.onPopupOpen);
     mapPins.addEventListener('keydown', window.pin.onMapPinsEnterPress);
