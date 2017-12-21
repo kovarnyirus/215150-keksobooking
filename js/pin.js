@@ -11,8 +11,7 @@
     var yPosition = element.location.y - MAP_PIN_HEIGHT;
 
     mapPinChild.setAttribute('style', 'left:' + xPosition + 'px; top:' + yPosition + 'px');
-    // console.log(element.author.avatar);
-    mapPinChild.setAttribute('id', index + 1);
+    mapPinChild.setAttribute('id', index);
     mapPinChildImg.setAttribute('src', element.author.avatar);
     return mapPinChild;
   }

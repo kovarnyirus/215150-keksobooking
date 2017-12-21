@@ -2,7 +2,7 @@
 (function () {
   var ENTER_KEYCODE = 13;
   var ESC_KEYCODE = 27;
-  var DEBOUNCE_INTERVAL = 500;
+  var DEBOUNCE_INTERVAL = 1500;
 
 
   function removeClass(element, className) {
