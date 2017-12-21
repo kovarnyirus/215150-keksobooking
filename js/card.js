@@ -72,7 +72,6 @@
       if (mapPinActive) {
         window.utils.removeClass(mapPinActive, 'map__pin--active');
       }
-      console.log(mapPinTarget.id);
       window.showCard(window.data.cloneAdsData[mapPinTarget.id]);
       window.utils.addClass(mapPinTarget, 'map__pin--active');
       mapPinActive = mapPinTarget;

@@ -24,7 +24,7 @@
     mapPinMain.removeEventListener('mouseup', onMainPinClick);
     mapPins.addEventListener('mouseup', window.card.onPopupOpen);
     mapPins.addEventListener('keydown', window.pin.onMapPinsEnterPress);
-    mapFilters.addEventListener('mouseup', onFiltersClick);
+    mapFilters.addEventListener('change', onFiltersClick);
     window.form.runForm(event);
     mapPinMain.addEventListener('mousedown', mapPinMainMove);
     window.form.notice.addEventListener('submit', window.form.onSubmit);
@@ -146,7 +146,6 @@
     window.card.onPopupClose();
     window.pin.removePins();
     debouncer(shortFilterArr);
-    console.log(shortFilterArr);
   }
 
 
