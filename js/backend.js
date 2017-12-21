@@ -25,7 +25,7 @@
     return xhr;
   }
 
-  function onError(errorMessage) {
+  function onErrorLoad(errorMessage) {
     var node = document.createElement('div');
     node.style = 'z-index: 100; margin: 10px; font-size: 15px; text-align: center; background-color: rgba(169, 145, 145, .5); border-radius: 5px; padding: 10px;';
     node.style.position = 'absolute';
@@ -57,6 +57,6 @@
       xhr.send();
     },
     onSuccessLoad: onSuccessLoad,
-    onError: onError
+    onErrorLoad: onErrorLoad
   };
 })();

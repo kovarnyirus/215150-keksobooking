@@ -95,7 +95,7 @@
 
   function onSubmit(event) {
     event.preventDefault();
-    window.backend.save(new FormData(FORM), onSubmitSuccess, window.backend.onError);
+    window.backend.save(new FormData(FORM), onSubmitSuccess, window.backend.onErrorLoad);
 
   }
 
