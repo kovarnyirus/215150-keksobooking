@@ -66,7 +66,7 @@
   }
 
   function isBetween(value, min, max) {
-    return value >= min && value <= max ? true : false;
+    return value >= min && value <= max;
   }
 
   function onMouseUp(event) {
