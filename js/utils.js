@@ -13,10 +13,7 @@
   }
 
   function hasClass(element, className) {
-    if (element) {
-      return element.classList.contains(className);
-    }
-    return false;
+    return element && element.classList.contains(className);
   }
 
   function getTargetElement(event, className) {

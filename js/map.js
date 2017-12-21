@@ -56,13 +56,17 @@
     var mapPinMainOffsetTop = mapPinMain.offsetTop - shift.y;
     setMainPinLastCoords(moveEvt);
 
-    if (mapPinMainOffsetTop >= MIN_Y && mapPinMainOffsetTop <= MAX_Y) {
+    if (isBetween(mapPinMainOffsetTop, MIN_Y, MAX_Y)) {
       mapPinMain.style.top = mapPinMainOffsetTop + 'px';
     }
-    if (mapPinMainOffsetLeft >= MIN_X && mapPinMainOffsetLeft <= MAX_X) {
+    if (isBetween(mapPinMainOffsetLeft, MIN_X, MAX_X)) {
       mapPinMain.style.left = mapPinMainOffsetLeft + 'px';
     }
     window.form.setAddress(moveEvt, MAIN_MAP_PIN_WIDTH, MAIN_MAP_PIN_HEIGHT);
+  }
+
+  function isBetween(value, min, max) {
+    return value >= min && value <= max ? true : false;
   }
 
   function onMouseUp(event) {
@@ -100,7 +104,7 @@
       return true;
     } else if (elementValue < 10000) {
       elementValue = 'low';
-    } else if (elementValue >= 10000 && elementValue < 50000) {
+    } else if (isBetween(elementValue, 10000, 50000)) {
       elementValue = 'middle';
     } else {
       elementValue = 'high';
@@ -110,12 +114,9 @@
 
   function filterFeatures(item) {
     var elementFeature = item.offer.features;
-
-    checkedFeatures = [].map.call(inputFeatures, function (element) {
-      return element;
-    }).filter(function (element) {
+    checkedFeatures = [].filter.call(inputFeatures, (function (element) {
       return element.checked;
-    });
+    }));
     for (var k = 0; k < checkedFeatures.length; k++) {
       if (elementFeature.indexOf(checkedFeatures[k].value) === -1) {
         return false;

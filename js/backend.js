@@ -18,11 +18,11 @@
     xhr.addEventListener('timeout', function () {
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
-    xhr.timeout = 100;
+    xhr.timeout = 1500;
     return xhr;
   }
 
-  function onErrorLoad(errorMessage) {
+  function onLoadError(errorMessage) {
     var node = document.createElement('div');
 
     node.style.border = '1px solid';
@@ -37,8 +37,10 @@
     node.textContent = errorMessage;
     node.setAttribute('class', 'error-message');
     document.body.insertAdjacentElement('afterbegin', node);
-    setTimeout(function() {var node = document.querySelector('.error-message');
-      document.body.removeChild(node);}, 5000);
+    setTimeout(function () {
+      var Message = document.querySelector('.error-message');
+      document.body.removeChild(Message);
+    }, 5000);
   }
 
   function onSuccessLoad(ads) {
@@ -59,6 +61,6 @@
       xhr.send();
     },
     onSuccessLoad: onSuccessLoad,
-    onErrorLoad: onErrorLoad
+    onLoadError: onLoadError
   };
 })();

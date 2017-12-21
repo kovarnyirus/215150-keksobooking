@@ -66,12 +66,9 @@
   function syncFieldRooms(element, value) {
     window.utils.setFieldValue(element, value);
     window.utils.disableElements(fieldsCapacity);
-    if (value === '0') {
-      enableCapacityField(fieldsCapacity, false);
-    } else {
-      enableCapacityField(fieldsCapacity, value);
-    }
+    enableCapacityField(fieldsCapacity, value === '0' ? false : value);
   }
+
 
   function syncPriceFields(element, value) {
     element.setAttribute('min', value);
@@ -95,7 +92,7 @@
 
   function onSubmit(event) {
     event.preventDefault();
-    window.backend.save(new FormData(FORM), onSubmitSuccess, window.backend.onErrorLoad);
+    window.backend.save(new FormData(FORM), onSubmitSuccess, window.backend.onLoadError);
 
   }
 

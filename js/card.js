@@ -79,10 +79,7 @@
   function onPopupOpen(event) {
     var mapPinTarget = window.utils.getTargetElement(event, 'map__pin');
 
-    if (window.utils.hasClass(mapPinTarget, 'map__pin--main')) {
-      return;
-    }
-    if (mapPinTarget) {
+    if (!window.utils.hasClass(mapPinTarget, 'map__pin--main') && mapPinTarget) {
       if (mapPinActive) {
         window.utils.removeClass(mapPinActive, 'map__pin--active');
       }
