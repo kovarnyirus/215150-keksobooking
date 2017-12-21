@@ -114,14 +114,11 @@
   function filterFeatures(item) {
     var array = [];
     var elementFeature = item.offer.features;
-    inputFeatures.forEach(function (it, i) {
-      array.push(inputFeatures[i]);
+    inputFeatures.forEach(function (it) {
+      array.push(it);
     });
     checkedFeatures = array.filter(function (element) {
-      if (element.checked) {
-        return true;
-      }
-      return false;
+      return element.checked;
     });
     for (var k = 0; k < checkedFeatures.length; k++) {
       if (elementFeature.indexOf(checkedFeatures[k].value) === -1) {
