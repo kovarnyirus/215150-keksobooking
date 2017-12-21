@@ -5,12 +5,11 @@
   function setup(onLoad, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
-
     xhr.addEventListener('load', function () {
       if (xhr.status === 200) {
         onLoad(xhr.response);
       } else {
-        onError(xhr.response);
+        onError('ошибка ' + xhr.status);
       }
     });
     xhr.addEventListener('error', function () {
@@ -19,9 +18,7 @@
     xhr.addEventListener('timeout', function () {
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
-
     xhr.timeout = 1500;
-
     return xhr;
   }
 
@@ -32,14 +29,12 @@
     node.style.left = 0;
     node.style.top = 0;
     node.style.fontSize = '15px';
-
     node.textContent = errorMessage;
     document.body.insertAdjacentElement('afterbegin', node);
   }
 
   function onSuccessLoad(ads) {
     window.data.sourceAdsData = ads;
-    console.log(ads);
     window.data.filteredAds = ads.slice(window.pin.MIN_PIN_COUNT, window.map.MAX_PIN_COUN);
     window.pin.renderMapPins(window.data.filteredAds);
   }
@@ -47,13 +42,11 @@
   window.backend = {
     save: function (data, onSuccess, error) {
       var xhr = setup(onSuccess, error);
-
       xhr.open('POST', SERVER_URL);
       xhr.send(data);
     },
     load: function (onLoad, error) {
       var xhr = setup(onLoad, error);
-
       xhr.open('GET', SERVER_URL + '/data');
       xhr.send();
     },

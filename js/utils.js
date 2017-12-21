@@ -12,9 +12,12 @@
   function addClass(element, className) {
     element.classList.add(className);
   }
-
+// hasClass проверяет куда был совершен клик, и если он был сделан по карте завершает функцию.
   function hasClass(element, className) {
-    return element.classList.contains(className);
+    if (element) {
+      return element.classList.contains(className);
+    }
+    return false;
   }
 
   function getTargetElement(event, className) {
@@ -49,7 +52,7 @@
     return event.keyCode === ENTER_KEYCODE;
   }
 
-  function debounce(fun, interval) {
+  function debounce(cb, interval) {
     var timer;
 
     return function () {
@@ -57,7 +60,7 @@
       function callable() {
         clearInterval(timer);
         timer = null;
-        fun.apply(null, arg);
+        cb.apply(null, arg);
       }
       if (!timer) {
         timer = setTimeout(callable, interval);
@@ -65,9 +68,9 @@
     };
   }
 
-  function fillFragmentWith(dataArray, cb) {
+  function fillFragmentWith(elements, cb) {
     var fragment = document.createDocumentFragment();
-    dataArray.forEach(function (item, i) {
+    elements.forEach(function (item, i) {
       fragment.appendChild(cb(item, i));
     });
     return fragment;

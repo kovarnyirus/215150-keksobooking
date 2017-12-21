@@ -6,6 +6,7 @@
   var mapCardTemplate = document.querySelector('template').content;
   var mapCardElement = mapCardTemplate.querySelector('.map__card').cloneNode(true);
   var popupPictures = mapCardElement.querySelector('.popup__pictures');
+  var popupFeatures = mapCardElement.querySelector('.popup__features');
 
   function renderCard(card) {
     var mapTextElements = mapCardElement.querySelectorAll('p');
@@ -17,8 +18,8 @@
     mapTextElements[2].textContent = card.offer.rooms + ' для ' + card.offer.guests + (card.offer.guests === 1 ? ' гостя' : ' гостей');
     mapTextElements[3].textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
     mapCardElement.querySelector('h4').textContent = card.offer.type;
-    renderFeatures(card.offer.features);
-    renderCardElements(card.offer.photos, popupPictures);
+    renderCardElements(card.offer.features, popupFeatures, generateFeatures);
+    renderCardElements(card.offer.photos, popupPictures, generatePopupPictures);
     mapTextElements[4].textContent = card.offer.description;
     mapCardElement.querySelector('.popup__avatar').setAttribute('src', card.author.avatar);
     window.map.map.insertBefore(mapCardElement, beforeItem);
@@ -28,16 +29,6 @@
     if (window.utils.isEnterKeyPress(evt)) {
       onPopupClose();
     }
-  }
-
-  function generateFeatures(features) {
-    var cardListFragment = document.createDocumentFragment();
-    features.forEach(function (item) {
-      var newLiElement = document.createElement('li');
-      newLiElement.className = 'feature feature--' + item;
-      cardListFragment.appendChild(newLiElement);
-    });
-    return cardListFragment;
   }
 
   function onPopupClose() {
@@ -57,18 +48,12 @@
     }
   }
 
-  function renderFeatures(arrayFeatures) {
-    var mapUlElement = mapCardElement.querySelector('.popup__features');
-    mapUlElement.innerHTML = '';
-    mapUlElement.appendChild(generateFeatures(arrayFeatures));
-  }
-
-  function renderCardElements(arrayElements, parent) {
+  function renderCardElements(arrayElements, parent, callback) {
     parent.innerHTML = '';
-    parent.appendChild(generateCardElements(arrayElements));
+    parent.appendChild(callback(arrayElements));
   }
 
-  function generateCardElements(arrayElements) {
+  function generatePopupPictures(arrayElements) {
     var cardListFragment = document.createDocumentFragment();
     arrayElements.forEach(function (item) {
       var newLiElement = document.createElement('li');
@@ -76,6 +61,16 @@
       newImg.setAttribute('src', item);
       newImg.setAttribute('style', 'width: 35px; height: 35px; padding: 5px;');
       newLiElement.appendChild(newImg);
+      cardListFragment.appendChild(newLiElement);
+    });
+    return cardListFragment;
+  }
+
+  function generateFeatures(features) {
+    var cardListFragment = document.createDocumentFragment();
+    features.forEach(function (item) {
+      var newLiElement = document.createElement('li');
+      newLiElement.className = 'feature feature--' + item;
       cardListFragment.appendChild(newLiElement);
     });
     return cardListFragment;

@@ -61,6 +61,7 @@
     var x = event.pageX + elementWidth / 2;
     var y = event.pageY + elementHeight;
     inputAdress.setAttribute('value', 'x: ' + x + ' y: ' + y);
+    console.log(x);
   }
 
   function syncFieldRooms(element, value) {
