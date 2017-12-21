@@ -2,7 +2,7 @@
 (function () {
   var SERVER_URL = 'https://1510.dump.academy/keksobooking';
 
-  function setup(onLoad, error) {
+  function setup(onLoad, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
@@ -10,14 +10,14 @@
       if (xhr.status === 200) {
         onLoad(xhr.response);
       } else {
-        error(xhr.response);
+        onError(xhr.response);
       }
     });
     xhr.addEventListener('error', function () {
-      error('Произошла ошибка соединения');
+      onError('Произошла ошибка соединения');
     });
     xhr.addEventListener('timeout', function () {
-      error('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+      onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
 
     xhr.timeout = 1500;
@@ -37,10 +37,10 @@
     document.body.insertAdjacentElement('afterbegin', node);
   }
 
-  function successLoad(dataArray) {
-    window.data.sourceAdsData = dataArray;
-    window.data.cloneAdsData = dataArray.slice(window.pin.MIN_PIN_COUNT, window.map.MAX_PIN_COUN);
-    window.pin.renderMapPins(window.data.cloneAdsData);
+  function onSuccessLoad(ads) {
+    window.data.sourceAdsData = ads;
+    window.data.filteredAds = ads.slice(window.pin.MIN_PIN_COUNT, window.map.MAX_PIN_COUN);
+    window.pin.renderMapPins(window.data.filteredAds);
   }
 
   window.backend = {
@@ -56,7 +56,7 @@
       xhr.open('GET', SERVER_URL + '/data');
       xhr.send();
     },
-    successLoad: successLoad,
+    onSuccessLoad: onSuccessLoad,
     onError: onError
   };
 })();
