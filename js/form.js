@@ -19,11 +19,12 @@
   var photoContainer = FORM.querySelector('.form__photo-container');
   var imageChooser = FORM.querySelector('#images');
   var avatarPreview = FORM.querySelector('.notice__preview').querySelector('img');
+  var fieldsetItems = notice.querySelectorAll('fieldset');
+  var inputAdress = notice.querySelector('#address');
 
   function disableForm() {
-    var elements = notice.querySelectorAll('fieldset');
     window.map.mapPinMain.addEventListener('mouseup', window.map.onMainPinClick);
-    window.utils.disableElements(elements);
+    window.utils.disableElements(fieldsetItems);
     avatarChooser.addEventListener('change', onAvatar);
     imageChooser.addEventListener('change', onPhotosHouse);
   }
@@ -57,7 +58,6 @@
   }
 
   function setAddress(event, elementWidth, elementHeight) {
-    var inputAdress = notice.querySelector('#address');
     var x = event.pageX + elementWidth / 2;
     var y = event.pageY + elementHeight;
     inputAdress.setAttribute('value', 'x: ' + x + ' y: ' + y);
@@ -78,7 +78,7 @@
   }
 
   function runForm(event) {
-    window.utils.enableElements(notice, 'fieldset');
+    window.utils.enableElements();
     typeInput.addEventListener('change', onSelectTypeInput);
     selectTimeIn.addEventListener('change', onSelectTimeIn);
     selectTimeOut.addEventListener('change', onSelectTimeOut);
@@ -150,6 +150,7 @@
 
 
   window.form = {
+    fieldsetItems: fieldsetItems,
     runForm: runForm,
     notice: notice,
     setAddress: setAddress,

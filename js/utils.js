@@ -31,8 +31,8 @@
     element.value = value;
   }
 
-  function enableElements(parentItem, childItems) {
-    var elements = parentItem.querySelectorAll(childItems);
+  function enableElements() {
+    var elements = window.form.fieldsetItems;
     [].forEach.call(elements, function (item) {
       item.removeAttribute('disabled');
     });

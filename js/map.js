@@ -49,6 +49,7 @@
   function onMouseMove(moveEvt) {
     moveEvt.preventDefault();
 
+
     var shift = {
       x: mainPinLastCoords.x - moveEvt.clientX,
       y: mainPinLastCoords.y - moveEvt.clientY
@@ -64,8 +65,6 @@
       mapPinMain.style.left = mapPinMainOffsetLeft + 'px';
     }
     window.form.setAddress(moveEvt, MAIN_MAP_PIN_WIDTH, MAIN_MAP_PIN_HEIGHT);
-
-
   }
 
   function onMouseUp(upEvt) {
@@ -100,7 +99,6 @@
   function filterPrice(item) {
     var selectFilterPrice = mapFilters.querySelector('#housing-price').value;
     var elementValue = item.offer.price;
-
     if (selectFilterPrice === 'any') {
       return true;
     } else if (elementValue < 10000) {
@@ -110,16 +108,15 @@
     } else {
       elementValue = 'high';
     }
-
     return elementValue === selectFilterPrice;
   }
 
   function filterFeatures(item) {
     var array = [];
     var elementFeature = item.offer.features;
-    for (var i = 0; i < inputFeatures.length; i++) {
+    inputFeatures.forEach(function (it, i) {
       array.push(inputFeatures[i]);
-    }
+    });
     checkedFeatures = array.filter(function (element) {
       if (element.checked) {
         return true;
@@ -142,12 +139,11 @@
     var shortFilterArr;
     var filterArr = window.data.sourceAdsData.filter(filterFields);
     shortFilterArr = filterArr.slice(MIN_PIN_COUNT, MAX_PIN_COUN);
-    window.data.cloneAdsData = shortFilterArr;
+    window.data.filteredAds = shortFilterArr;
     window.card.onPopupClose();
     window.pin.removePins();
     debouncer(shortFilterArr);
   }
-
 
   window.map = {
     mapPinMain: mapPinMain,
