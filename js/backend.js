@@ -40,13 +40,13 @@
   }
 
   window.backend = {
-    save: function (data, onSuccess, error) {
-      var xhr = setup(onSuccess, error);
+    save: function (data, onSuccess, onError) {
+      var xhr = setup(onSuccess, onError);
       xhr.open('POST', SERVER_URL);
       xhr.send(data);
     },
-    load: function (onLoad, error) {
-      var xhr = setup(onLoad, error);
+    load: function (onLoad, onError) {
+      var xhr = setup(onLoad, onError);
       xhr.open('GET', SERVER_URL + '/data');
       xhr.send();
     },
