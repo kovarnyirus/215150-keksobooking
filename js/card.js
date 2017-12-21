@@ -96,7 +96,6 @@
     }
   }
 
-
   window.card = {
     mapCardTemplate: mapCardTemplate,
     onPopupOpen: onPopupOpen,

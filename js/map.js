@@ -48,8 +48,6 @@
 
   function onMouseMove(moveEvt) {
     moveEvt.preventDefault();
-
-
     var shift = {
       x: mainPinLastCoords.x - moveEvt.clientX,
       y: mainPinLastCoords.y - moveEvt.clientY
@@ -67,9 +65,8 @@
     window.form.setAddress(moveEvt, MAIN_MAP_PIN_WIDTH, MAIN_MAP_PIN_HEIGHT);
   }
 
-  function onMouseUp(upEvt) {
-    upEvt.preventDefault();
-
+  function onMouseUp(event) {
+    event.preventDefault();
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
   }

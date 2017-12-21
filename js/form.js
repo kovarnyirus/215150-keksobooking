@@ -60,8 +60,7 @@
   function setAddress(event, elementWidth, elementHeight) {
     var x = event.pageX + elementWidth / 2;
     var y = event.pageY + elementHeight;
-    inputAdress.setAttribute('value', 'x: ' + x + ' y: ' + y);
-    console.log(x);
+    inputAdress.value = 'x: ' + x + ' y: ' + y;
   }
 
   function syncFieldRooms(element, value) {
@@ -100,12 +99,16 @@
 
   }
 
-  function onAvatar(event) {
+  function onRenderPhoto(event, cb) {
     var file = event.srcElement.files[0];
     var fileName = file.name.toLowerCase();
     var matches = FILE_TYPES.some(function (item) {
       return fileName.endsWith(item);
     });
+    cb(matches, file);
+  }
+
+  function photoAvatar(matches, file) {
     if (matches) {
       var reader = new FileReader();
       reader.addEventListener('load', function () {
@@ -115,17 +118,20 @@
     }
   }
 
-  function onPhotosHouse(event) {
-    var file = event.srcElement.files[0];
-    var fileName = file.name.toLowerCase();
-    var matches = FILE_TYPES.some(function (item) {
-      return fileName.endsWith(item);
-    });
+  function photosHouse(matches, file) {
     if (matches) {
       var reader = new FileReader();
       reader.addEventListener('load', onRenderHousesPhoto);
       reader.readAsDataURL(file);
     }
+  }
+
+  function onAvatar(event) {
+    onRenderPhoto(event, photoAvatar);
+  }
+
+  function onPhotosHouse(event) {
+    onRenderPhoto(event, photosHouse);
   }
 
   function onRenderHousesPhoto(event) {
@@ -148,7 +154,6 @@
     newImg.setAttribute('src', readerResult);
     parent.appendChild(newImg);
   }
-
 
   window.form = {
     fieldsetItems: fieldsetItems,

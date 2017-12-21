@@ -4,7 +4,6 @@
   var ESC_KEYCODE = 27;
   var DEBOUNCE_INTERVAL = 500;
 
-
   function removeClass(element, className) {
     element.classList.remove(className);
   }
@@ -12,7 +11,7 @@
   function addClass(element, className) {
     element.classList.add(className);
   }
-// hasClass проверяет куда был совершен клик, и если он был сделан по карте завершает функцию.
+  // hasClass проверяет куда был совершен клик, и если он был сделан по карте завершает функцию.
   function hasClass(element, className) {
     if (element) {
       return element.classList.contains(className);
