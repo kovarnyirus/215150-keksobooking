@@ -39,6 +39,7 @@
 
   function onSuccessLoad(ads) {
     window.data.sourceAdsData = ads;
+    console.log(ads);
     window.data.filteredAds = ads.slice(window.pin.MIN_PIN_COUNT, window.map.MAX_PIN_COUN);
     window.pin.renderMapPins(window.data.filteredAds);
   }

@@ -5,6 +5,7 @@
   var beforeItem = document.querySelector('.map__filters-container');
   var mapCardTemplate = document.querySelector('template').content;
   var mapCardElement = mapCardTemplate.querySelector('.map__card').cloneNode(true);
+  var popupPictures = mapCardElement.querySelector('.popup__pictures');
 
   function renderCard(card) {
     var mapTextElements = mapCardElement.querySelectorAll('p');
@@ -16,8 +17,8 @@
     mapTextElements[2].textContent = card.offer.rooms + ' для ' + card.offer.guests + (card.offer.guests === 1 ? ' гостя' : ' гостей');
     mapTextElements[3].textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
     mapCardElement.querySelector('h4').textContent = card.offer.type;
-    mapCardElement.querySelector('.popup__pictures').style.display = 'none';
     renderFeatures(card.offer.features);
+    renderCardElements(card.offer.photos, popupPictures);
     mapTextElements[4].textContent = card.offer.description;
     mapCardElement.querySelector('.popup__avatar').setAttribute('src', card.author.avatar);
     window.map.map.insertBefore(mapCardElement, beforeItem);
@@ -60,6 +61,24 @@
     var mapUlElement = mapCardElement.querySelector('.popup__features');
     mapUlElement.innerHTML = '';
     mapUlElement.appendChild(generateFeatures(arrayFeatures));
+  }
+
+  function renderCardElements(arrayElements, parent) {
+    parent.innerHTML = '';
+    parent.appendChild(generateCardElements(arrayElements));
+  }
+
+  function generateCardElements(arrayElements) {
+    var cardListFragment = document.createDocumentFragment();
+    arrayElements.forEach(function (item) {
+      var newLiElement = document.createElement('li');
+      var newImg = document.createElement('img');
+      newImg.setAttribute('src', item);
+      newImg.setAttribute('style', 'width: 35px; height: 35px; padding: 5px;');
+      newLiElement.appendChild(newImg);
+      cardListFragment.appendChild(newLiElement);
+    });
+    return cardListFragment;
   }
 
   function onPopupOpen(event) {

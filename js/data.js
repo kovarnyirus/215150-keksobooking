@@ -7,6 +7,7 @@
   var sourceAdsData;
   var filteredAds;
 
+
   window.data = {
     sourceAdsData: sourceAdsData,
     filteredAds: filteredAds,

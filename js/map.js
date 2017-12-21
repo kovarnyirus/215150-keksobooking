@@ -112,12 +112,11 @@
   }
 
   function filterFeatures(item) {
-    var array = [];
     var elementFeature = item.offer.features;
-    inputFeatures.forEach(function (it) {
-      array.push(it);
-    });
-    checkedFeatures = array.filter(function (element) {
+
+    checkedFeatures = [].map.call(inputFeatures, function (element) {
+      return element;
+    }).filter(function (element) {
       return element.checked;
     });
     for (var k = 0; k < checkedFeatures.length; k++) {
