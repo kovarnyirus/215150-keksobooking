@@ -11,7 +11,7 @@
   function addClass(element, className) {
     element.classList.add(className);
   }
-  // hasClass проверяет куда был совершен клик, и если он был сделан по карте завершает функцию.
+
   function hasClass(element, className) {
     if (element) {
       return element.classList.contains(className);
