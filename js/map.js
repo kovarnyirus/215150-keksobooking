@@ -8,59 +8,61 @@
   var MAX_Y = 650;
   var MIN_PIN_COUNT = 0;
   var MAX_PIN_COUN = 5;
+  var LOW_PRICE = 10000;
+  var HIGH_PRICE = 50000;
   var map = document.querySelector('.map');
-  var mapPins = document.querySelector('.map__pins');
-  var mapPinMain = map.querySelector('.map__pin--main');
-  var mainPinLastCoords;
+  var pinsContainer = document.querySelector('.map__pins');
+  var mainPin = map.querySelector('.map__pin--main');
+  var mainPinPosition;
   var mapFilters = map.querySelector('.map__filters');
   var checkedFeatures;
   var debouncer = window.utils.debounce(window.pin.renderMapPins, window.utils.DEBOUNCE_INTERVAL);
   var inputFeatures = mapFilters.querySelector('#housing-features').querySelectorAll('input');
 
-  function onMainPinClick(event) {
+  function onMainPinClick(evt) {
     map.classList.remove('map--faded');
     window.form.notice.querySelector('.notice__form').classList.remove('notice__form--disabled');
     window.backend.load(window.backend.onLoadSuccess, window.backend.onLoadError);
-    mapPinMain.removeEventListener('mouseup', onMainPinClick);
-    mapPins.addEventListener('mouseup', window.card.onPopupOpen);
-    mapPins.addEventListener('keydown', window.pin.onMapPinsEnterPress);
+    mainPin.removeEventListener('mouseup', onMainPinClick);
+    pinsContainer.addEventListener('mouseup', window.card.onPopupOpen);
+    pinsContainer.addEventListener('keydown', window.pin.onMapPinsEnterPress);
     mapFilters.addEventListener('change', onFiltersClick);
-    window.form.runForm(event);
-    mapPinMain.addEventListener('mousedown', mapPinMainMove);
+    window.form.runForm(evt);
+    mainPin.addEventListener('mousedown', mapPinMainMove);
     window.form.notice.addEventListener('submit', window.form.onSubmit);
     window.form.avatarChooser.addEventListener('change', window.form.onAvatar);
     window.form.imageChooser.addEventListener('change', window.form.onPhotosHouse);
   }
 
-  function mapPinMainMove(event) {
-    event.preventDefault();
-    setMainPinLastCoords(event);
+  function mapPinMainMove(evt) {
+    evt.preventDefault();
+    setMainPinLastCoords(evt);
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   }
 
-  function setMainPinLastCoords(event) {
-    mainPinLastCoords = {
-      x: event.clientX,
-      y: event.clientY
+  function setMainPinLastCoords(evt) {
+    mainPinPosition = {
+      x: evt.clientX,
+      y: evt.clientY
     };
   }
 
   function onMouseMove(moveEvt) {
     moveEvt.preventDefault();
     var shift = {
-      x: mainPinLastCoords.x - moveEvt.clientX,
-      y: mainPinLastCoords.y - moveEvt.clientY
+      x: mainPinPosition.x - moveEvt.clientX,
+      y: mainPinPosition.y - moveEvt.clientY
     };
-    var mapPinMainOffsetLeft = mapPinMain.offsetLeft - shift.x;
-    var mapPinMainOffsetTop = mapPinMain.offsetTop - shift.y;
+    var mapPinMainOffsetLeft = mainPin.offsetLeft - shift.x;
+    var mapPinMainOffsetTop = mainPin.offsetTop - shift.y;
     setMainPinLastCoords(moveEvt);
 
     if (isBetween(mapPinMainOffsetTop, MIN_Y, MAX_Y)) {
-      mapPinMain.style.top = mapPinMainOffsetTop + 'px';
+      mainPin.style.top = mapPinMainOffsetTop + 'px';
     }
     if (isBetween(mapPinMainOffsetLeft, MIN_X, MAX_X)) {
-      mapPinMain.style.left = mapPinMainOffsetLeft + 'px';
+      mainPin.style.left = mapPinMainOffsetLeft + 'px';
     }
     window.form.setAddress(moveEvt, MAIN_MAP_PIN_WIDTH, MAIN_MAP_PIN_HEIGHT);
   }
@@ -69,8 +71,8 @@
     return value >= min && value <= max;
   }
 
-  function onMouseUp(event) {
-    event.preventDefault();
+  function onMouseUp(evt) {
+    evt.preventDefault();
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
   }
@@ -102,9 +104,9 @@
     var elementValue = item.offer.price;
     if (selectFilterPrice === 'any') {
       return true;
-    } else if (elementValue < 10000) {
+    } else if (elementValue < LOW_PRICE) {
       elementValue = 'low';
-    } else if (isBetween(elementValue, 10000, 50000)) {
+    } else if (isBetween(elementValue, LOW_PRICE, HIGH_PRICE)) {
       elementValue = 'middle';
     } else {
       elementValue = 'high';
@@ -130,20 +132,17 @@
   }
 
   function onFiltersClick() {
-    var shortFilterArr;
-    var filterArr = window.data.sourceAdsData.filter(filterFields);
-    shortFilterArr = filterArr.slice(MIN_PIN_COUNT, MAX_PIN_COUN);
-    window.data.filteredAds = shortFilterArr;
+    window.data.filteredAds = window.data.sourceAdsData.filter(filterFields).slice(MIN_PIN_COUNT, MAX_PIN_COUN);
     window.card.onPopupClose();
     window.pin.removePins();
-    debouncer(shortFilterArr);
+    debouncer(window.data.filteredAds);
   }
 
   window.map = {
-    mapPinMain: mapPinMain,
+    mainPin: mainPin,
     onMainPinClick: onMainPinClick,
     map: map,
-    mapPins: mapPins,
+    pinsContainer: pinsContainer,
     MIN_PIN_COUNT: MIN_PIN_COUNT,
     MAX_PIN_COUN: MAX_PIN_COUN
   };

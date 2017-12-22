@@ -5,8 +5,8 @@
   var beforeItem = document.querySelector('.map__filters-container');
   var mapCardTemplate = document.querySelector('template').content;
   var mapCardElement = mapCardTemplate.querySelector('.map__card').cloneNode(true);
-  var popupPictures = mapCardElement.querySelector('.popup__pictures');
-  var popupFeatures = mapCardElement.querySelector('.popup__features');
+  var popupPicture = mapCardElement.querySelector('.popup__pictures');
+  var popupFeature = mapCardElement.querySelector('.popup__features');
 
   function renderCard(card) {
     var mapTextElements = mapCardElement.querySelectorAll('p');
@@ -18,8 +18,8 @@
     mapTextElements[2].textContent = card.offer.rooms + ' для ' + card.offer.guests + (card.offer.guests === 1 ? ' гостя' : ' гостей');
     mapTextElements[3].textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
     mapCardElement.querySelector('h4').textContent = card.offer.type;
-    renderCardElements(card.offer.features, popupFeatures, generateFeatures);
-    renderCardElements(card.offer.photos, popupPictures, generatePopupPictures);
+    renderCardElements(card.offer.features, popupFeature, generateFeatures);
+    renderCardElements(card.offer.photos, popupPicture, generatePopupPictures);
     mapTextElements[4].textContent = card.offer.description;
     mapCardElement.querySelector('.popup__avatar').setAttribute('src', card.author.avatar);
     window.map.map.insertBefore(mapCardElement, beforeItem);
@@ -41,8 +41,8 @@
     }
   }
 
-  function onPopupEscPress(event) {
-    if (window.utils.isEscKeyPress(event)) {
+  function onPopupEscPress(evt) {
+    if (window.utils.isEscKeyPress(evt)) {
       onPopupClose();
       window.map.map.removeEventListener('keydown', onPopupEscPress);
     }
@@ -76,8 +76,8 @@
     return cardListFragment;
   }
 
-  function onPopupOpen(event) {
-    var mapPinTarget = window.utils.getTargetElement(event, 'map__pin');
+  function onPopupOpen(evt) {
+    var mapPinTarget = window.utils.getTargetElement(evt, 'map__pin');
 
     if (!window.utils.hasClass(mapPinTarget, 'map__pin--main') && mapPinTarget) {
       if (mapPinActive) {

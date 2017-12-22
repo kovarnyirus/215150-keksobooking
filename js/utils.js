@@ -16,11 +16,11 @@
     return element && element.classList.contains(className);
   }
 
-  function getTargetElement(event, className) {
-    if (hasClass(event.target.parentElement, className)) {
-      return event.target.parentElement;
+  function getTargetElement(evt, className) {
+    if (hasClass(evt.target.parentElement, className)) {
+      return evt.target.parentElement;
     }
-    return hasClass(event.target, className) ? event.target : false;
+    return hasClass(evt.target, className) ? evt.target : false;
   }
 
   function setFieldValue(element, value) {
@@ -40,12 +40,12 @@
     });
   }
 
-  function isEscKeyPress(event) {
-    return event.keyCode === ESC_KEYCODE;
+  function isEscKeyPress(evt) {
+    return evt.keyCode === ESC_KEYCODE;
   }
 
-  function isEnterKeyPress(event) {
-    return event.keyCode === ENTER_KEYCODE;
+  function isEnterKeyPress(evt) {
+    return evt.keyCode === ENTER_KEYCODE;
   }
 
   function debounce(cb, interval) {

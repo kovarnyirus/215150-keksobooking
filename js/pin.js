@@ -16,20 +16,20 @@
     return mapPinChild;
   }
 
-  function onMapPinsEnterPress(event) {
-    if (window.utils.isEnterKeyPress(event)) {
-      window.card.onPopupOpen(event);
+  function onMapPinsEnterPress(evt) {
+    if (window.utils.isEnterKeyPress(evt)) {
+      window.card.onPopupOpen(evt);
     }
   }
 
   function removePins() {
-    while (window.map.mapPins.children[2]) {
-      window.map.mapPins.removeChild(window.map.mapPins.children[2]);
+    while (window.map.pinsContainer.children[2]) {
+      window.map.pinsContainer.removeChild(window.map.pinsContainer.children[2]);
     }
   }
 
   function renderMapPins(ads) {
-    window.map.mapPins.appendChild(window.utils.fillFragmentWith(ads, createMapPin));
+    window.map.pinsContainer.appendChild(window.utils.fillFragmentWith(ads, createMapPin));
   }
 
   window.pin = {
